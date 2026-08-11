@@ -26,6 +26,17 @@
         <Setter Property="MinHeight" Value="40" />
         <Setter Property="Margin" Value="4,1" />
     </Style>
+    <!-- The selected background already communicates the active page in the
+         narrow rail; remove the extra animated pipe that crowds the icon. -->
+    <Style Selector="fa|FANavigationViewItem.shellNavItem.compact:selected /template/ Border#SelectionIndicator">
+        <Setter Property="IsVisible" Value="False" />
+    </Style>
+    <Style Selector="fa|FANavigationViewItem.shellNavItem.compact:selected /template/ Border#SelectedPipe">
+        <Setter Property="IsVisible" Value="False" />
+    </Style>
+    <Style Selector="fa|FANavigationViewItem.shellNavItem.compact:selected /template/ Rectangle#SelectionIndicator">
+        <Setter Property="IsVisible" Value="False" />
+    </Style>
     <Style Selector="fa|FANavigationViewItemHeader.shellNavHeader">
         <Setter Property="Margin" Value="12,10,12,4" />
         <Setter Property="Opacity" Value="0.9" />

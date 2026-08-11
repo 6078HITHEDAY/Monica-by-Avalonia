@@ -266,8 +266,8 @@ public partial class UnlockedShellView : UserControl
         }
 
         var compactRail = IsCompactRailVisible();
-        SetCompactHiddenClass(VaultNavigationView.MenuItems, compactRail);
-        SetCompactHiddenClass(VaultNavigationView.FooterMenuItems, compactRail);
+        SetCompactNavigationClasses(VaultNavigationView.MenuItems, compactRail);
+        SetCompactNavigationClasses(VaultNavigationView.FooterMenuItems, compactRail);
 
         var paneWidth = ResolveVisiblePaneWidth();
         // Keep status text aligned with workspace content instead of under the icon rail.
@@ -276,13 +276,10 @@ public partial class UnlockedShellView : UserControl
 
     private bool IsCompactRailVisible()
     {
-        // Closed LeftCompact and Minimal both show icon-only / overlay chrome where
-        // group headers waste vertical space and break icon rhythm.
-        return VaultNavigationView.DisplayMode is FANavigationViewDisplayMode.Compact
-            or FANavigationViewDisplayMode.Minimal
-            || (!VaultNavigationView.IsPaneOpen &&
-                VaultNavigationView.PaneDisplayMode is FANavigationViewPaneDisplayMode.LeftCompact
-                    or FANavigationViewPaneDisplayMode.LeftMinimal);
+        // LeftCompact keeps the compact rail as its display mode even while the
+        // pane is open. The actual pane state is therefore the source of truth.
+        return !VaultNavigationView.IsPaneOpen
+            || VaultNavigationView.DisplayMode == FANavigationViewDisplayMode.Minimal;
     }
 
     private double ResolveVisiblePaneWidth()
@@ -298,7 +295,7 @@ public partial class UnlockedShellView : UserControl
             return 0;
         }
 
-        if (VaultNavigationView.IsPaneOpen || VaultNavigationView.DisplayMode == FANavigationViewDisplayMode.Expanded)
+        if (VaultNavigationView.IsPaneOpen)
         {
             return VaultNavigationView.OpenPaneLength > 0
                 ? VaultNavigationView.OpenPaneLength
@@ -310,7 +307,7 @@ public partial class UnlockedShellView : UserControl
             : CompactPaneWidth;
     }
 
-    private static void SetCompactHiddenClass(System.Collections.IEnumerable items, bool compactRail)
+    private static void SetCompactNavigationClasses(System.Collections.IEnumerable items, bool compactRail)
     {
         foreach (var item in items)
         {
@@ -318,6 +315,9 @@ public partial class UnlockedShellView : UserControl
             {
                 case FANavigationViewItemHeader header:
                     header.Classes.Set("compactHidden", compactRail);
+                    break;
+                case FANavigationViewItem navigationItem:
+                    navigationItem.Classes.Set("compact", compactRail);
                     break;
                 case FANavigationViewItemSeparator separator:
                     separator.Classes.Set("compactHidden", compactRail);
