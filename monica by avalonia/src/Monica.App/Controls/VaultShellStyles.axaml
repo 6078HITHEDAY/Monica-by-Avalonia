@@ -9,11 +9,39 @@
         <Setter Property="BorderBrush" Value="{DynamicResource CardBorderBrush}" />
         <Setter Property="BorderThickness" Value="1" />
     </Style>
+    <Style Selector="Button.workspaceCommand:pointerover">
+        <Setter Property="Background" Value="{DynamicResource ControlFillColorSecondaryBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource AccentFillColorSecondaryBrush}" />
+    </Style>
     <Style Selector="Button.workspacePrimaryCommand">
         <Setter Property="MinHeight" Value="40" />
         <Setter Property="Padding" Value="12,6" />
         <Setter Property="CornerRadius" Value="6" />
         <Setter Property="Background" Value="{DynamicResource AccentFillColorDefaultBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource TextOnAccentFillColorPrimaryBrush}" />
+        <Setter Property="BorderThickness" Value="0" />
+    </Style>
+    <Style Selector="Button.workspacePrimaryCommand:pointerover">
+        <Setter Property="Background" Value="{DynamicResource AccentFillColorSecondaryBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource TextOnAccentFillColorPrimaryBrush}" />
+    </Style>
+    <Style Selector="Button.workspacePrimaryCommand TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource TextOnAccentFillColorPrimaryBrush}" />
+    </Style>
+    <Style Selector="Button.workspaceDangerCommand">
+        <Setter Property="MinHeight" Value="40" />
+        <Setter Property="Padding" Value="12,6" />
+        <Setter Property="CornerRadius" Value="6" />
+        <Setter Property="Background" Value="{DynamicResource SystemFillColorCriticalBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource TextOnAccentFillColorPrimaryBrush}" />
+        <Setter Property="BorderThickness" Value="0" />
+    </Style>
+    <Style Selector="Button.workspaceDangerCommand:pointerover">
+        <Setter Property="Background" Value="{DynamicResource SystemFillColorCriticalBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource TextOnAccentFillColorPrimaryBrush}" />
+        <Setter Property="Opacity" Value="0.92" />
+    </Style>
+    <Style Selector="Button.workspaceDangerCommand TextBlock">
         <Setter Property="Foreground" Value="{DynamicResource TextOnAccentFillColorPrimaryBrush}" />
     </Style>
     <Style Selector="ListBox.workspaceList ListBoxItem">
@@ -25,6 +53,9 @@
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
+    </Style>
+    <Style Selector="ListBox.workspaceList ListBoxItem:pointerover">
+        <Setter Property="Background" Value="{DynamicResource ListViewItemBackgroundPointerOver}" />
     </Style>
     <Style Selector="ListBox.workspaceList ListBoxItem:selected">
         <Setter Property="BorderBrush" Value="{DynamicResource AccentFillColorDefaultBrush}" />
@@ -69,6 +100,7 @@
         <Setter Property="MaxWidth" Value="320" />
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Spacing" Value="10" />
     </Style>
     <Style Selector="Border.workspaceRecoverableStatus">
         <Setter Property="CornerRadius" Value="8" />
@@ -79,27 +111,45 @@
         <Setter Property="Background" Value="{DynamicResource LayerFillColorSubtleBrush}" />
     </Style>
     <Style Selector="Border.workspacePageHeader">
-        <Setter Property="BorderBrush" Value="{DynamicResource CardBorderBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource DividerStrokeColorDefaultBrush}" />
         <Setter Property="BorderThickness" Value="0,0,0,1" />
-        <Setter Property="Padding" Value="0,0,0,12" />
-        <Setter Property="Margin" Value="0,0,0,4" />
+        <Setter Property="Padding" Value="0,0,0,14" />
+        <Setter Property="Margin" Value="0,0,0,14" />
     </Style>
     <Style Selector="Border.workspacePane">
-        <Setter Property="CornerRadius" Value="8" />
-        <Setter Property="BorderBrush" Value="{DynamicResource CardBorderBrush}" />
-        <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="Background" Value="{DynamicResource CardBackgroundBrush}" />
+        <Setter Property="CornerRadius" Value="0" />
+        <Setter Property="BorderBrush" Value="{DynamicResource DividerStrokeColorDefaultBrush}" />
+        <Setter Property="BorderThickness" Value="1,0,0,0" />
+        <Setter Property="Background" Value="{DynamicResource LayerFillColorDefaultBrush}" />
     </Style>
     <Style Selector="Border.workspaceSidebar">
-        <Setter Property="CornerRadius" Value="8" />
-        <Setter Property="BorderBrush" Value="{DynamicResource CardBorderBrush}" />
-        <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="Background" Value="{DynamicResource LayerFillColorDefaultBrush}" />
+        <Setter Property="CornerRadius" Value="0" />
+        <Setter Property="BorderBrush" Value="{DynamicResource DividerStrokeColorDefaultBrush}" />
+        <Setter Property="BorderThickness" Value="0,0,1,0" />
+        <Setter Property="Background" Value="{DynamicResource LayerFillColorSubtleBrush}" />
     </Style>
     <Style Selector="Border.workspaceStatusChip">
         <Setter Property="Padding" Value="8,3" />
         <Setter Property="CornerRadius" Value="10" />
         <Setter Property="Background" Value="{DynamicResource LayerFillColorSubtleBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource DividerStrokeColorDefaultBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+    </Style>
+    <Style Selector="Border.workspaceDiagnosticTile">
+        <Setter Property="MinWidth" Value="156" />
+        <Setter Property="MinHeight" Value="64" />
+        <Setter Property="Padding" Value="12,8" />
+        <Setter Property="CornerRadius" Value="6" />
+        <Setter Property="BorderBrush" Value="{DynamicResource DividerStrokeColorDefaultBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Background" Value="{DynamicResource LayerFillColorDefaultBrush}" />
+    </Style>
+    <Style Selector="Border.workspaceRiskZone">
+        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="BorderBrush" Value="{DynamicResource SystemFillColorCriticalBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Background" Value="{DynamicResource LayerFillColorSubtleBrush}" />
+        <Setter Property="Padding" Value="12,10" />
     </Style>
     <Style Selector="Border.workspaceNavItem">
         <Setter Property="MinHeight" Value="40" />
@@ -130,6 +180,23 @@
         <Setter Property="Background" Value="{DynamicResource ListViewItemBackgroundSelected}" />
         <Setter Property="BorderBrush" Value="{DynamicResource AccentFillColorDefaultBrush}" />
     </Style>
+    <Style Selector="Button.workspacePivotButton">
+        <Setter Property="MinHeight" Value="36" />
+        <Setter Property="Padding" Value="10,6" />
+        <Setter Property="CornerRadius" Value="6" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="1" />
+    </Style>
+    <Style Selector="Button.workspacePivotButton:pointerover">
+        <Setter Property="Background" Value="{DynamicResource ListViewItemBackgroundPointerOver}" />
+    </Style>
+    <Style Selector="Button.workspacePivotButton.accent">
+        <Setter Property="Background" Value="{DynamicResource ListViewItemBackgroundSelected}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource AccentFillColorDefaultBrush}" />
+    </Style>
     <Style Selector="TextBlock.workspacePageTitle">
         <Setter Property="FontSize" Value="24" />
         <Setter Property="FontWeight" Value="SemiBold" />
@@ -151,5 +218,11 @@
     <Style Selector="TextBlock.workspaceDetailValue">
         <Setter Property="TextWrapping" Value="Wrap" />
         <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+    </Style>
+    <Style Selector="Border.workspaceAvatar">
+        <Setter Property="Background" Value="{DynamicResource AccentFillColorDefaultBrush}" />
+    </Style>
+    <Style Selector="Border.workspaceAvatar TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource MonicaAvatarForegroundBrush}" />
     </Style>
 </Styles>

@@ -11,11 +11,7 @@
                 <Border x:Name="WebDavOperationProgressRegion"
                         Grid.Row="2"
                         Grid.ColumnSpan="2"
-                        Padding="12,9"
-                        CornerRadius="7"
-                        BorderBrush="{DynamicResource AccentFillColorSecondaryBrush}"
-                        BorderThickness="1"
-                        Background="{DynamicResource LayerFillColorSubtleBrush}"
+                        Classes="syncProgressSurface"
                         IsVisible="{Binding IsWebDavBusy}"
                         AutomationProperties.Name="{Binding WebDavOperationStageText}">
                     <Grid ColumnDefinitions="160,*" ColumnSpacing="12">
@@ -39,7 +35,7 @@
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate x:DataType="vm:SyncHealthDisplayItem">
-                                    <Border Width="180" MinHeight="64" Margin="0,0,8,0" Padding="12,8" CornerRadius="4" BorderBrush="{DynamicResource DividerStrokeColorDefaultBrush}" BorderThickness="0,0,1,0" Background="Transparent">
+                                    <Border Classes="syncHealthTile">
                                         <StackPanel Spacing="2">
                                             <TextBlock Text="{Binding Label}" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" TextTrimming="CharacterEllipsis" />
                                             <TextBlock Text="{Binding Value}" FontSize="16" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />

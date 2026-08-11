@@ -16,7 +16,7 @@
           RowDefinitions="Auto,*"
           HorizontalAlignment="Stretch"
           ClipToBounds="True">
-        <Border Classes="walletPageHeader">
+        <Border Classes="workspacePageHeader">
             <Grid x:Name="WalletHeaderGrid"
                   ColumnDefinitions="*,320,Auto"
                   RowDefinitions="Auto,Auto"

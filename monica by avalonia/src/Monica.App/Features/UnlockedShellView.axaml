@@ -13,25 +13,34 @@
     <Grid RowDefinitions="*,32">
         <fa:FANavigationView x:Name="VaultNavigationView"
                              Grid.Row="0"
+                             Classes="shellNavigation"
                              PaneDisplayMode="LeftCompact"
                              IsPaneOpen="False"
                              IsBackButtonVisible="False"
                              IsSettingsVisible="False"
+                             AlwaysShowHeader="False"
                              CompactPaneLength="48"
-                             OpenPaneLength="240"
+                             OpenPaneLength="248"
+                             CompactModeThresholdWidth="720"
+                             ExpandedModeThresholdWidth="1280"
                              Background="{DynamicResource LayerFillColorDefaultBrush}"
+                             PaneOpening="NavigationView_OnPaneOpening"
+                             PaneOpened="NavigationView_OnPaneOpened"
+                             PaneClosing="NavigationView_OnPaneClosing"
+                             PaneClosed="NavigationView_OnPaneClosed"
+                             DisplayModeChanged="NavigationView_OnDisplayModeChanged"
                              SelectionChanged="NavigationView_OnSelectionChanged"
                              ItemInvoked="NavigationView_OnItemInvoked">
             <fa:FANavigationView.MenuItems>
-                <fa:FANavigationViewItemHeader Content="{Binding L.VaultNavigationGroup}" Tag="Vault" />
-                <fa:FANavigationViewItem Content="{Binding L.Passwords}" Tag="Passwords">
+                <fa:FANavigationViewItemHeader Classes="shellNavHeader" Content="{Binding L.VaultNavigationGroup}" Tag="Vault" />
+                <fa:FANavigationViewItem Classes="shellNavItem" Content="{Binding L.Passwords}" Tag="Passwords">
                     <fa:FANavigationViewItem.IconSource>
-                        <fa:FASymbolIconSource Symbol="Permissions" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                        <fa:FASymbolIconSource Symbol="Permissions" />
                     </fa:FANavigationViewItem.IconSource>
                 </fa:FANavigationViewItem>
             </fa:FANavigationView.MenuItems>
 
-            <Grid x:Name="WorkspaceContentGrid" Margin="20" RowDefinitions="Auto,*" Background="{DynamicResource LayerFillColorDefaultBrush}">
+            <Grid x:Name="WorkspaceContentGrid" Margin="16,12,16,12" RowDefinitions="Auto,*" Background="{DynamicResource LayerFillColorDefaultBrush}">
                 <Border Grid.Row="0" Classes="workspaceRecoverableStatus" IsVisible="{Binding HasRecoverableStatusMessage}">
                     <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="10">
                         <ic:FluentIcon Icon="Warning" FontSize="18" Foreground="{DynamicResource SystemFillColorCautionBrush}" VerticalAlignment="Top" Margin="0,2,0,0" />
@@ -49,11 +58,8 @@
             </Grid>
         </fa:FANavigationView>
 
-        <Border Grid.Row="1"
-                Background="{DynamicResource LayerFillColorDefaultBrush}"
-                BorderBrush="{DynamicResource DividerStrokeColorDefaultBrush}"
-                BorderThickness="0,1,0,0">
-            <Border Padding="12,0" ClipToBounds="True">
+        <Border x:Name="ShellStatusBar" Grid.Row="1" Classes="shellStatusBar">
+            <Border x:Name="ShellStatusBarContent" Padding="12,0" ClipToBounds="True">
                 <Grid ColumnSpacing="16">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
@@ -61,23 +67,20 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
-                    <StackPanel Orientation="Horizontal" Spacing="5" VerticalAlignment="Center">
-                        <TextBlock Text="&#xE777;" FontFamily="Segoe Fluent Icons" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
-                        <TextBlock Text="{Binding ShellVaultText}" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                    <StackPanel Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
+                        <ic:FluentIcon Icon="LockClosed" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                        <TextBlock Classes="shellStatusText" Text="{Binding ShellVaultText}" />
                     </StackPanel>
 
-                    <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="5" VerticalAlignment="Center">
-                        <TextBlock Text="&#xE7BA;" FontFamily="Segoe Fluent Icons" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
-                        <TextBlock Text="{Binding ShellSyncText}" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
+                        <ic:FluentIcon Icon="ArrowSync" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                        <TextBlock Classes="shellStatusText" Text="{Binding ShellSyncText}" />
                     </StackPanel>
 
                     <TextBlock Grid.Column="2"
+                               Classes="shellStatusText"
                                Text="{Binding ShellPageText}"
-                               FontSize="12"
-                               Foreground="{DynamicResource TextFillColorSecondaryBrush}"
-                               TextTrimming="CharacterEllipsis"
-                               VerticalAlignment="Center" />
-
+                               TextTrimming="CharacterEllipsis" />
                 </Grid>
             </Border>
         </Border>
@@ -88,29 +91,35 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
                 ClipToBounds="True">
-            <StackPanel Width="360"
-                        MaxWidth="360"
-                        Margin="24"
-                        Spacing="12"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center">
-                <TextBlock Text="{Binding L[VaultLoadTitle]}"
-                           FontSize="22"
-                           FontWeight="SemiBold"
-                           Foreground="{DynamicResource TextOnAccentFillColorPrimaryBrush}"
-                           HorizontalAlignment="Center"
-                           TextAlignment="Center" />
-                <TextBlock Text="{Binding VaultLoadStageText}"
-                           Foreground="{DynamicResource TextOnAccentFillColorPrimaryBrush}"
-                           TextWrapping="Wrap"
-                           TextAlignment="Center" />
-                <ProgressBar IsIndeterminate="True" Height="4" />
-                <TextBlock Text="{Binding StatusMessage}"
-                           FontSize="12"
-                           Foreground="{DynamicResource TextOnAccentFillColorSecondaryBrush}"
-                           TextWrapping="Wrap"
-                           TextAlignment="Center" />
-            </StackPanel>
+            <Border Width="360"
+                    MaxWidth="360"
+                    Margin="24"
+                    Padding="20"
+                    CornerRadius="8"
+                    Background="{DynamicResource CardBackgroundBrush}"
+                    BorderBrush="{DynamicResource CardBorderBrush}"
+                    BorderThickness="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="{Binding L[VaultLoadTitle]}"
+                               FontSize="22"
+                               FontWeight="SemiBold"
+                               Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+                               HorizontalAlignment="Center"
+                               TextAlignment="Center" />
+                    <TextBlock Text="{Binding VaultLoadStageText}"
+                               Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                               TextWrapping="Wrap"
+                               TextAlignment="Center" />
+                    <ProgressBar IsIndeterminate="True" Height="4" />
+                    <TextBlock Text="{Binding StatusMessage}"
+                               FontSize="12"
+                               Foreground="{DynamicResource TextFillColorTertiaryBrush}"
+                               TextWrapping="Wrap"
+                               TextAlignment="Center" />
+                </StackPanel>
+            </Border>
         </Border>
     </Grid>
 </UserControl>

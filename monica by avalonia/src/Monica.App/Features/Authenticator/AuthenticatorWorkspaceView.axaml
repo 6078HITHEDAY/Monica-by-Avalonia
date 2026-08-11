@@ -16,7 +16,7 @@
           RowDefinitions="Auto,*"
           HorizontalAlignment="Stretch"
           ClipToBounds="True">
-        <Border Classes="totpPageHeader">
+        <Border Classes="workspacePageHeader">
             <Grid x:Name="AuthenticatorHeaderGrid"
                   ColumnDefinitions="*,320,Auto"
                   RowDefinitions="Auto,Auto"

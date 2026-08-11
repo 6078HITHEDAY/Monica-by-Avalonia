@@ -5,63 +5,42 @@
              RequestedThemeVariant="Default">
     <Application.Resources>
         <ResourceDictionary>
-            <SolidColorBrush x:Key="LayerFillColorDefaultBrush" Color="#F7F7F7" />
-            <SolidColorBrush x:Key="LayerFillColorAltBrush" Color="#FFFFFF" />
-            <SolidColorBrush x:Key="LayerFillColorSubtleBrush" Color="#EFEFEF" />
+            <!-- Monica-only tokens. FluentAvalonia supplies standard Fill/Stroke/Text/Accent brushes. -->
             <SolidColorBrush x:Key="CardBackgroundBrush" Color="#FFFFFF" />
             <SolidColorBrush x:Key="CardBorderBrush" Color="#D8D8D8" />
-            <SolidColorBrush x:Key="CardBackgroundFillColorDefaultBrush" Color="#FFFFFF" />
-            <SolidColorBrush x:Key="CardBackgroundFillColorSecondaryBrush" Color="#F4F4F4" />
-            <SolidColorBrush x:Key="CardStrokeColorDefaultBrush" Color="#D8D8D8" />
-            <SolidColorBrush x:Key="DividerStrokeColorDefaultBrush" Color="#E0E0E0" />
-            <SolidColorBrush x:Key="ControlFillColorDefaultBrush" Color="#FFFFFF" />
-            <SolidColorBrush x:Key="ControlFillColorSecondaryBrush" Color="#F4F4F4" />
-            <SolidColorBrush x:Key="ControlFillColorTertiaryBrush" Color="#EAEAEA" />
-            <SolidColorBrush x:Key="ListViewItemBackgroundPointerOver" Color="#F0F6FC" />
-            <SolidColorBrush x:Key="ListViewItemBackgroundSelected" Color="#E7F2FF" />
-            <SolidColorBrush x:Key="ListViewItemBackgroundSelectedPointerOver" Color="#DCEEFF" />
-            <SolidColorBrush x:Key="TextFillColorPrimaryBrush" Color="#1A1A1A" />
-            <SolidColorBrush x:Key="TextFillColorSecondaryBrush" Color="#5C5C5C" />
-            <SolidColorBrush x:Key="TextFillColorTertiaryBrush" Color="#767676" />
-            <SolidColorBrush x:Key="AccentFillColorDefaultBrush" Color="#0078D4" />
-            <SolidColorBrush x:Key="AccentFillColorSecondaryBrush" Color="#106EBE" />
-            <SolidColorBrush x:Key="AccentFillColorTertiaryBrush" Color="#D7EBF8" />
-            <SolidColorBrush x:Key="AccentTextFillColorPrimaryBrush" Color="#005A9E" />
-            <SolidColorBrush x:Key="TextOnAccentFillColorPrimaryBrush" Color="#FFFFFF" />
-            <SolidColorBrush x:Key="SystemFillColorCautionBrush" Color="#FCE100" />
-            <SolidColorBrush x:Key="SystemFillColorCriticalBrush" Color="#C42B1C" />
             <SolidColorBrush x:Key="MutedTextBrush" Color="#66000000" />
-            <SolidColorBrush x:Key="OverlayFillColorDefaultBrush" Color="#66000000" />
+            <SolidColorBrush x:Key="MonicaBarcodeSurfaceBrush" Color="#FFFFFF" />
+            <SolidColorBrush x:Key="MonicaOverlayTextPrimaryBrush" Color="#FFFFFF" />
+            <SolidColorBrush x:Key="MonicaOverlayTextSecondaryBrush" Color="#E6FFFFFF" />
+            <SolidColorBrush x:Key="MonicaAvatarForegroundBrush" Color="#FFFFFF" />
 
             <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Light">
+                    <SolidColorBrush x:Key="CardBackgroundBrush" Color="#FFFFFF" />
+                    <SolidColorBrush x:Key="CardBorderBrush" Color="#D8D8D8" />
+                    <SolidColorBrush x:Key="MutedTextBrush" Color="#66000000" />
+                    <SolidColorBrush x:Key="MonicaBarcodeSurfaceBrush" Color="#FFFFFF" />
+                    <SolidColorBrush x:Key="MonicaOverlayTextPrimaryBrush" Color="#FFFFFF" />
+                    <SolidColorBrush x:Key="MonicaOverlayTextSecondaryBrush" Color="#E6FFFFFF" />
+                    <SolidColorBrush x:Key="MonicaAvatarForegroundBrush" Color="#FFFFFF" />
+                </ResourceDictionary>
                 <ResourceDictionary x:Key="Dark">
-                    <SolidColorBrush x:Key="LayerFillColorDefaultBrush" Color="#202020" />
-                    <SolidColorBrush x:Key="LayerFillColorAltBrush" Color="#1B1B1B" />
-                    <SolidColorBrush x:Key="LayerFillColorSubtleBrush" Color="#242424" />
                     <SolidColorBrush x:Key="CardBackgroundBrush" Color="#2B2B2B" />
                     <SolidColorBrush x:Key="CardBorderBrush" Color="#3A3A3A" />
-                    <SolidColorBrush x:Key="CardBackgroundFillColorDefaultBrush" Color="#2B2B2B" />
-                    <SolidColorBrush x:Key="CardBackgroundFillColorSecondaryBrush" Color="#252525" />
-                    <SolidColorBrush x:Key="CardStrokeColorDefaultBrush" Color="#3A3A3A" />
-                    <SolidColorBrush x:Key="DividerStrokeColorDefaultBrush" Color="#343434" />
-                    <SolidColorBrush x:Key="ControlFillColorDefaultBrush" Color="#323232" />
-                    <SolidColorBrush x:Key="ControlFillColorSecondaryBrush" Color="#383838" />
-                    <SolidColorBrush x:Key="ControlFillColorTertiaryBrush" Color="#424242" />
-                    <SolidColorBrush x:Key="ListViewItemBackgroundPointerOver" Color="#343434" />
-                    <SolidColorBrush x:Key="ListViewItemBackgroundSelected" Color="#3A3A3A" />
-                    <SolidColorBrush x:Key="ListViewItemBackgroundSelectedPointerOver" Color="#414141" />
-                    <SolidColorBrush x:Key="TextFillColorPrimaryBrush" Color="#F3F3F3" />
-                    <SolidColorBrush x:Key="TextFillColorSecondaryBrush" Color="#C9C9C9" />
-                    <SolidColorBrush x:Key="TextFillColorTertiaryBrush" Color="#9D9D9D" />
-                    <SolidColorBrush x:Key="AccentFillColorDefaultBrush" Color="#60CDFF" />
-                    <SolidColorBrush x:Key="AccentFillColorSecondaryBrush" Color="#3AADE2" />
-                    <SolidColorBrush x:Key="AccentFillColorTertiaryBrush" Color="#275A70" />
-                    <SolidColorBrush x:Key="AccentTextFillColorPrimaryBrush" Color="#9CDCFE" />
-                    <SolidColorBrush x:Key="TextOnAccentFillColorPrimaryBrush" Color="#101010" />
-                    <SolidColorBrush x:Key="SystemFillColorCautionBrush" Color="#FCE100" />
-                    <SolidColorBrush x:Key="SystemFillColorCriticalBrush" Color="#FF99A4" />
-                    <SolidColorBrush x:Key="MutedTextBrush" Color="#99000000" />
-                    <SolidColorBrush x:Key="OverlayFillColorDefaultBrush" Color="#A0000000" />
+                    <SolidColorBrush x:Key="MutedTextBrush" Color="#99FFFFFF" />
+                    <SolidColorBrush x:Key="MonicaBarcodeSurfaceBrush" Color="#FFFFFF" />
+                    <SolidColorBrush x:Key="MonicaOverlayTextPrimaryBrush" Color="#FFFFFF" />
+                    <SolidColorBrush x:Key="MonicaOverlayTextSecondaryBrush" Color="#E6FFFFFF" />
+                    <SolidColorBrush x:Key="MonicaAvatarForegroundBrush" Color="#101010" />
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="{x:Static styling:FluentAvaloniaTheme.HighContrastTheme}">
+                    <SolidColorBrush x:Key="CardBackgroundBrush" Color="#000000" />
+                    <SolidColorBrush x:Key="CardBorderBrush" Color="#FFFFFF" />
+                    <SolidColorBrush x:Key="MutedTextBrush" Color="#CCFFFFFF" />
+                    <SolidColorBrush x:Key="MonicaBarcodeSurfaceBrush" Color="#FFFFFF" />
+                    <SolidColorBrush x:Key="MonicaOverlayTextPrimaryBrush" Color="#FFFFFF" />
+                    <SolidColorBrush x:Key="MonicaOverlayTextSecondaryBrush" Color="#FFFFFF" />
+                    <SolidColorBrush x:Key="MonicaAvatarForegroundBrush" Color="#000000" />
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
         </ResourceDictionary>
@@ -70,76 +49,10 @@
     <Application.Styles>
         <styling:FluentAvaloniaTheme PreferSystemTheme="False"
                                      PreferUserAccentColor="True" />
+        <StyleInclude Source="/Controls/VaultShellStyles.axaml" />
 
         <Style Selector="Window">
             <Setter Property="FontFamily" Value="Segoe UI, Microsoft YaHei UI, Noto Sans CJK SC" />
-            <Setter Property="Background" Value="{DynamicResource LayerFillColorDefaultBrush}" />
-        </Style>
-
-        <Style Selector="TextBlock">
-            <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
-        </Style>
-
-        <Style Selector="TextBox">
-            <Setter Property="Background" Value="{DynamicResource ControlFillColorDefaultBrush}" />
-            <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
-            <Setter Property="PlaceholderForeground" Value="{DynamicResource TextFillColorTertiaryBrush}" />
-            <Setter Property="BorderBrush" Value="{DynamicResource CardBorderBrush}" />
-        </Style>
-
-        <Style Selector="TextBox:pointerover">
-            <Setter Property="Background" Value="{DynamicResource ControlFillColorDefaultBrush}" />
-            <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
-            <Setter Property="BorderBrush" Value="{DynamicResource ControlStrokeColorDefaultBrush}" />
-        </Style>
-
-        <Style Selector="TextBox:focus">
-            <Setter Property="Background" Value="{DynamicResource ControlFillColorDefaultBrush}" />
-            <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
-            <Setter Property="BorderBrush" Value="{DynamicResource ControlStrokeColorDefaultBrush}" />
-        </Style>
-
-        <Style Selector="Button">
-            <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
-            <Setter Property="BorderBrush" Value="{DynamicResource CardBorderBrush}" />
-        </Style>
-
-        <Style Selector="Button:pointerover">
-            <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
-            <Setter Property="BorderBrush" Value="{DynamicResource AccentFillColorSecondaryBrush}" />
-        </Style>
-
-        <Style Selector="Button:pressed">
-            <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
-            <Setter Property="BorderBrush" Value="{DynamicResource AccentFillColorDefaultBrush}" />
-        </Style>
-
-        <Style Selector="Button:disabled">
-            <Setter Property="Foreground" Value="{DynamicResource TextFillColorTertiaryBrush}" />
-            <Setter Property="Opacity" Value="0.72" />
-        </Style>
-
-        <Style Selector="ComboBox">
-            <Setter Property="Background" Value="{DynamicResource ControlFillColorDefaultBrush}" />
-            <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
-            <Setter Property="PlaceholderForeground" Value="{DynamicResource TextFillColorTertiaryBrush}" />
-            <Setter Property="BorderBrush" Value="{DynamicResource CardBorderBrush}" />
-        </Style>
-
-        <Style Selector="ComboBox:pointerover">
-            <Setter Property="Background" Value="{DynamicResource ControlFillColorDefaultBrush}" />
-            <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
-            <Setter Property="BorderBrush" Value="{DynamicResource AccentFillColorSecondaryBrush}" />
-        </Style>
-
-        <Style Selector="ToggleButton">
-            <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
-            <Setter Property="BorderBrush" Value="{DynamicResource CardBorderBrush}" />
-        </Style>
-
-        <Style Selector="ToggleButton:pointerover">
-            <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
-            <Setter Property="BorderBrush" Value="{DynamicResource AccentFillColorSecondaryBrush}" />
         </Style>
 
         <Style Selector="Button.StatusBarButton">
@@ -150,7 +63,6 @@
             <Setter Property="CornerRadius" Value="0" />
             <Setter Property="Foreground" Value="{DynamicResource TextFillColorSecondaryBrush}" />
         </Style>
-
         <Style Selector="Button.StatusBarButton:pointerover">
             <Setter Property="Background" Value="{DynamicResource ControlFillColorSecondaryBrush}" />
         </Style>
@@ -164,7 +76,6 @@
             <Setter Property="CornerRadius" Value="6" />
             <Setter Property="Foreground" Value="{DynamicResource TextFillColorSecondaryBrush}" />
         </Style>
-
         <Style Selector="Button.IconButton:pointerover">
             <Setter Property="Background" Value="{DynamicResource ControlFillColorSecondaryBrush}" />
             <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
@@ -179,37 +90,14 @@
             <Setter Property="Padding" Value="12,5" />
             <Setter Property="Foreground" Value="{DynamicResource TextFillColorSecondaryBrush}" />
         </Style>
-
         <Style Selector="ToggleButton.FilterChip:pointerover">
             <Setter Property="Background" Value="{DynamicResource ControlFillColorSecondaryBrush}" />
             <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
         </Style>
-
         <Style Selector="ToggleButton.FilterChip:checked">
             <Setter Property="Background" Value="{DynamicResource AccentFillColorTertiaryBrush}" />
             <Setter Property="BorderBrush" Value="{DynamicResource AccentFillColorDefaultBrush}" />
             <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
-        </Style>
-
-        <Style Selector="ListBox">
-            <Setter Property="Background" Value="Transparent" />
-            <Setter Property="BorderThickness" Value="0" />
-        </Style>
-
-        <Style Selector="ListBoxItem">
-            <Setter Property="Padding" Value="0" />
-            <Setter Property="Margin" Value="0,0,0,3" />
-            <Setter Property="CornerRadius" Value="8" />
-            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-            <Setter Property="MinHeight" Value="0" />
-        </Style>
-
-        <Style Selector="ListBoxItem:pointerover">
-            <Setter Property="Background" Value="{DynamicResource ListViewItemBackgroundPointerOver}" />
-        </Style>
-
-        <Style Selector="ListBoxItem:selected">
-            <Setter Property="Background" Value="{DynamicResource ListViewItemBackgroundSelected}" />
         </Style>
     </Application.Styles>
 </Application>

@@ -47,10 +47,15 @@
 <Style Selector="Button.databasePivotButton">
     <Setter Property="MinHeight" Value="40" />
     <Setter Property="Padding" Value="12,8" />
+    <Setter Property="CornerRadius" Value="6" />
     <Setter Property="HorizontalAlignment" Value="Stretch" />
     <Setter Property="HorizontalContentAlignment" Value="Left" />
     <Setter Property="Background" Value="Transparent" />
     <Setter Property="BorderBrush" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="1" />
+</Style>
+<Style Selector="Button.databasePivotButton:pointerover">
+    <Setter Property="Background" Value="{DynamicResource ListViewItemBackgroundPointerOver}" />
 </Style>
 <Style Selector="Button.databasePivotButton.accent">
     <Setter Property="Background" Value="{DynamicResource ListViewItemBackgroundSelected}" />

@@ -66,7 +66,7 @@ public sealed class PasswordVaultCompositionUiTests
         Assert.DoesNotContain("Classes=\"passwordFilterChip\"", toolbarXaml, StringComparison.Ordinal);
         Assert.Contains("Text=\"{Binding PasswordListStatusText}\"", listXaml, StringComparison.Ordinal);
         Assert.Contains(
-            "<Setter Property=\"Foreground\" Value=\"{DynamicResource LayerFillColorAltBrush}\" />",
+            "<Setter Property=\"Foreground\" Value=\"{DynamicResource TextOnAccentFillColorPrimaryBrush}\" />",
             stylesXaml,
             StringComparison.Ordinal);
         Assert.DoesNotContain("#101010", stylesXaml, StringComparison.OrdinalIgnoreCase);

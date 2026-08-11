@@ -20,6 +20,7 @@
                          Height="36" />
                 <Button x:Name="ClearNoteSearchButton"
                         Grid.Column="1"
+                        Classes="workspaceCommand"
                         IsVisible="{Binding HasNoteSearchText}"
                         Command="{Binding ClearNoteSearchCommand}"
                         ToolTip.Tip="{Binding L[ClearNoteSearch]}"
@@ -171,6 +172,7 @@
                            TextAlignment="Center"
                            MaxWidth="220" />
                 <Button x:Name="EmptyNoteTreeAddButton"
+                        Classes="workspaceCommand"
                         IsVisible="{Binding ShowAddNoteInEmptyTree}"
                         Command="{Binding AddNoteCommand}"
                         AutomationProperties.Name="{Binding L.NewSecureNote}"
@@ -180,7 +182,8 @@
                         <TextBlock Text="{Binding L.NewSecureNote}" />
                     </StackPanel>
                 </Button>
-                <Button IsVisible="{Binding ShowClearNoteSearchInEmptyTree}"
+                <Button Classes="workspaceCommand"
+                        IsVisible="{Binding ShowClearNoteSearchInEmptyTree}"
                         Command="{Binding ClearNoteSearchCommand}"
                         AutomationProperties.Name="{Binding L[ClearNoteSearch]}"
                         Content="{Binding L[ClearNoteSearch]}"

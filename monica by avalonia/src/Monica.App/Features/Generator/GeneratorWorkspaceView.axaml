@@ -14,7 +14,7 @@
           RowDefinitions="Auto,*"
           HorizontalAlignment="Stretch"
           ClipToBounds="True">
-        <Border Classes="generatorPageHeader">
+        <Border Classes="workspacePageHeader">
             <Grid x:Name="GeneratorHeaderGrid" ColumnDefinitions="*,Auto" ColumnSpacing="16" MinHeight="56">
                 <StackPanel x:Name="GeneratorHeaderTitle" MinWidth="0" VerticalAlignment="Center">
                     <TextBlock Classes="workspacePageTitle" Text="{Binding L.PasswordGenerator}" />

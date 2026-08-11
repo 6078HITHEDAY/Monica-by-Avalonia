@@ -33,8 +33,7 @@
             </ContentControl>
         </Grid>
 
-        <Border Grid.RowSpan="2"
-                IsVisible="{Binding IsPrivacyScreenVisible}"
+        <Border IsVisible="{Binding IsPrivacyScreenVisible}"
                 Background="{DynamicResource SolidBackgroundFillColorBaseBrush}"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch">
@@ -47,6 +46,7 @@
                         Background="{DynamicResource AccentFillColorDefaultBrush}">
                     <ic:FluentIcon Icon="LockClosed"
                                    FontSize="28"
+                                   Foreground="{DynamicResource MonicaAvatarForegroundBrush}"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center" />
                 </Border>

@@ -9,6 +9,9 @@
     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
     <Setter Property="VerticalContentAlignment" Value="Stretch" />
 </Style>
+<Style Selector="ListBox.recycleQueueList ListBoxItem:pointerover">
+    <Setter Property="Background" Value="{DynamicResource ListViewItemBackgroundPointerOver}" />
+</Style>
 <Style Selector="ListBox.recycleQueueList ListBoxItem:selected">
     <Setter Property="BorderBrush" Value="{DynamicResource AccentFillColorDefaultBrush}" />
     <Setter Property="Background" Value="{DynamicResource ListViewItemBackgroundSelected}" />

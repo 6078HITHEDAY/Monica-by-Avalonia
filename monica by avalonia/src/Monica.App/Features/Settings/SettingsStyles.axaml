@@ -8,7 +8,7 @@
     <Setter Property="Padding" Value="0" />
 </Style>
 <Style Selector="TextBlock.settingsPageTitle">
-    <Setter Property="FontSize" Value="28" />
+    <Setter Property="FontSize" Value="24" />
     <Setter Property="FontWeight" Value="SemiBold" />
     <Setter Property="Margin" Value="0,0,0,16" />
 </Style>

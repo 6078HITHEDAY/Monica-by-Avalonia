@@ -34,6 +34,7 @@
                                VerticalAlignment="Center" />
                     <Button x:Name="TreeAddNoteButton"
                             Grid.Column="3"
+                            Classes="workspaceCommand"
                             IsVisible="{Binding ShowAddNoteInTreeHeader}"
                             Command="{Binding AddNoteCommand}"
                             ToolTip.Tip="{Binding L.NewSecureNote}"
@@ -52,6 +53,7 @@
                   ColumnDefinitions="Auto,*,Auto"
                   Background="{DynamicResource LayerFillColorSubtleBrush}">
                 <Button x:Name="PreviousNoteTabButton"
+                        Classes="workspaceCommand"
                         Click="PreviousNoteTabButton_OnClick"
                         IsEnabled="False"
                         ToolTip.Tip="{Binding L[PreviousNoteTabs]}"
@@ -146,6 +148,7 @@
                             VerticalAlignment="Top"
                             Background="{DynamicResource LayerFillColorSubtleBrush}">
                     <Button x:Name="NextNoteTabButton"
+                            Classes="workspaceCommand"
                             Click="NextNoteTabButton_OnClick"
                             IsEnabled="False"
                             ToolTip.Tip="{Binding L[NextNoteTabs]}"
@@ -158,6 +161,7 @@
                         <ic:FluentIcon Icon="ChevronRight" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </Button>
                     <Button x:Name="AddNoteTabButton"
+                            Classes="workspaceCommand"
                             Command="{Binding AddNoteCommand}"
                             ToolTip.Tip="{Binding L.NewSecureNote}"
                             AutomationProperties.Name="{Binding L.NewSecureNote}"
@@ -169,6 +173,7 @@
                         <ic:FluentIcon Icon="Add" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </Button>
                     <Button x:Name="SaveNoteTabButton"
+                            Classes="workspaceCommand"
                             Command="{Binding SaveNoteCommand}"
                             IsEnabled="{Binding HasOpenNoteTabs}"
                             ToolTip.Tip="{Binding L.SaveNote}"
@@ -181,6 +186,7 @@
                         <ic:FluentIcon Icon="Save" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </Button>
                     <Button x:Name="MoreNoteTabButton"
+                            Classes="workspaceCommand"
                             ToolTip.Tip="{Binding L.MoreOptions}"
                             AutomationProperties.Name="{Binding L.MoreOptions}"
                             Width="40"

@@ -24,6 +24,7 @@
                 MinHeight="220"
                 MaxHeight="340">
             <ListBox x:Name="CategoryPickerList"
+                     Classes="workspaceList"
                      ItemsSource="{Binding FilteredCategoryOptions}"
                      SelectedItem="{Binding SelectedCategory}"
                      SelectionMode="Single"

@@ -12,6 +12,8 @@ namespace Monica.App.Features;
 public partial class UnlockedShellView : UserControl
 {
     private const double CompactContentBreakpoint = 920;
+    private const double CompactPaneWidth = 48;
+    private const double ExpandedPaneWidth = 248;
 
     private static readonly DeferredNavigationItem[] DeferredVaultItems =
     [
@@ -85,6 +87,7 @@ public partial class UnlockedShellView : UserControl
         _workspaceScaffold = null;
         InitializeComponent();
         UpdateShellLayout(Bounds.Width);
+        UpdateCompactNavigationChrome();
         WorkspaceHostSlot.Content = _workspaceHost;
         Dispatcher.UIThread.Post(InitializeDeferredNavigation, DispatcherPriority.SystemIdle);
     }
@@ -110,11 +113,14 @@ public partial class UnlockedShellView : UserControl
                 CreateNavigationItem(DeferredFooterItems[index]));
         }
 
-        VaultNavigationView.FooterMenuItems.Add(new FANavigationViewItemSeparator());
+        var footerSeparator = new FANavigationViewItemSeparator();
+        footerSeparator.Classes.Add("shellNavSeparator");
+        VaultNavigationView.FooterMenuItems.Add(footerSeparator);
         var lockItem = CreateNavigationItem(new DeferredNavigationItem("LockVaultText", "Lock", FASymbol.Admin));
         lockItem.Name = "LockVaultNavigationItem";
         lockItem.SelectsOnInvoked = false;
         VaultNavigationView.FooterMenuItems.Add(lockItem);
+        UpdateCompactNavigationChrome();
     }
 
     private void AddNavigationItems(IEnumerable<DeferredNavigationItem> items)
@@ -128,6 +134,7 @@ public partial class UnlockedShellView : UserControl
     private static FANavigationViewItemHeader CreateNavigationHeader(string labelPath, string tag)
     {
         var header = new FANavigationViewItemHeader { Tag = tag };
+        header.Classes.Add("shellNavHeader");
         header.Bind(ContentControl.ContentProperty, new Binding(labelPath));
         return header;
     }
@@ -139,7 +146,10 @@ public partial class UnlockedShellView : UserControl
             Tag = source.Tag,
             IconSource = new FASymbolIconSource { Symbol = source.Symbol }
         };
+        item.Classes.Add("shellNavItem");
         item.Bind(ContentControl.ContentProperty, new Binding(source.LabelPath));
+        // Compact rail only shows icons; keep the full label available on hover.
+        item.Bind(ToolTip.TipProperty, new Binding(source.LabelPath));
         return item;
     }
 
@@ -192,6 +202,21 @@ public partial class UnlockedShellView : UserControl
         ActivateNavigationTag(tag);
     }
 
+    private void NavigationView_OnPaneOpening(FANavigationView sender, EventArgs e) =>
+        UpdateCompactNavigationChrome();
+
+    private void NavigationView_OnPaneOpened(FANavigationView sender, EventArgs e) =>
+        UpdateCompactNavigationChrome();
+
+    private void NavigationView_OnPaneClosing(FANavigationView sender, FANavigationViewPaneClosingEventArgs e) =>
+        UpdateCompactNavigationChrome();
+
+    private void NavigationView_OnPaneClosed(FANavigationView sender, EventArgs e) =>
+        UpdateCompactNavigationChrome();
+
+    private void NavigationView_OnDisplayModeChanged(object? sender, FANavigationViewDisplayModeChangedEventArgs e) =>
+        UpdateCompactNavigationChrome();
+
     internal void ActivateNavigationTag(string? tag)
     {
         if (DataContext is not MainWindowViewModel viewModel || string.IsNullOrWhiteSpace(tag))
@@ -217,14 +242,89 @@ public partial class UnlockedShellView : UserControl
         if (_shellChromeInitialized)
         {
             UpdateShellLayout(e.NewSize.Width);
+            UpdateCompactNavigationChrome();
         }
     }
 
     private void UpdateShellLayout(double width)
     {
+        if (WorkspaceContentGrid is null)
+        {
+            return;
+        }
+
         WorkspaceContentGrid.Margin = width > 0 && width < CompactContentBreakpoint
-            ? new Thickness(12)
-            : new Thickness(20);
+            ? new Thickness(12, 10, 12, 10)
+            : new Thickness(16, 12, 16, 12);
+    }
+
+    private void UpdateCompactNavigationChrome()
+    {
+        if (!_shellChromeInitialized || VaultNavigationView is null || ShellStatusBarContent is null)
+        {
+            return;
+        }
+
+        var compactRail = IsCompactRailVisible();
+        SetCompactHiddenClass(VaultNavigationView.MenuItems, compactRail);
+        SetCompactHiddenClass(VaultNavigationView.FooterMenuItems, compactRail);
+
+        var paneWidth = ResolveVisiblePaneWidth();
+        // Keep status text aligned with workspace content instead of under the icon rail.
+        ShellStatusBarContent.Padding = new Thickness(paneWidth + 12, 0, 12, 0);
+    }
+
+    private bool IsCompactRailVisible()
+    {
+        // Closed LeftCompact and Minimal both show icon-only / overlay chrome where
+        // group headers waste vertical space and break icon rhythm.
+        return VaultNavigationView.DisplayMode is FANavigationViewDisplayMode.Compact
+            or FANavigationViewDisplayMode.Minimal
+            || (!VaultNavigationView.IsPaneOpen &&
+                VaultNavigationView.PaneDisplayMode is FANavigationViewPaneDisplayMode.LeftCompact
+                    or FANavigationViewPaneDisplayMode.LeftMinimal);
+    }
+
+    private double ResolveVisiblePaneWidth()
+    {
+        if (VaultNavigationView.PaneDisplayMode is FANavigationViewPaneDisplayMode.Top
+            or FANavigationViewPaneDisplayMode.LeftMinimal)
+        {
+            return VaultNavigationView.IsPaneOpen ? 0 : 0;
+        }
+
+        if (VaultNavigationView.DisplayMode == FANavigationViewDisplayMode.Minimal)
+        {
+            return 0;
+        }
+
+        if (VaultNavigationView.IsPaneOpen || VaultNavigationView.DisplayMode == FANavigationViewDisplayMode.Expanded)
+        {
+            return VaultNavigationView.OpenPaneLength > 0
+                ? VaultNavigationView.OpenPaneLength
+                : ExpandedPaneWidth;
+        }
+
+        return VaultNavigationView.CompactPaneLength > 0
+            ? VaultNavigationView.CompactPaneLength
+            : CompactPaneWidth;
+    }
+
+    private static void SetCompactHiddenClass(System.Collections.IEnumerable items, bool compactRail)
+    {
+        foreach (var item in items)
+        {
+            switch (item)
+            {
+                case FANavigationViewItemHeader header:
+                    header.Classes.Set("compactHidden", compactRail);
+                    break;
+                case FANavigationViewItemSeparator separator:
+                    separator.Classes.Set("compactHidden", compactRail);
+                    separator.Classes.Set("shellNavSeparator", true);
+                    break;
+            }
+        }
     }
 
     private void WorkspaceHost_OnSizeChanged(object? sender, SizeChangedEventArgs e)

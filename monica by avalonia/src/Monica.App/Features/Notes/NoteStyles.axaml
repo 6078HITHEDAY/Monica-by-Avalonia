@@ -80,20 +80,6 @@
     <Style Selector="Button.noteTreeExpandButton:pointerover, Button.noteFolderManagementButton:pointerover">
         <Setter Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}" />
     </Style>
-    <Style Selector="Grid.notesWorkspace Button">
-        <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
-    </Style>
-    <Style Selector="Grid.notesWorkspace Button:disabled">
-        <Setter Property="Foreground" Value="{DynamicResource TextFillColorTertiaryBrush}" />
-        <Setter Property="Opacity" Value="0.72" />
-    </Style>
-    <Style Selector="Grid.notesWorkspace TextBox">
-        <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
-        <Setter Property="PlaceholderForeground" Value="{DynamicResource TextFillColorTertiaryBrush}" />
-    </Style>
-    <Style Selector="Grid.notesWorkspace TextBox:focus">
-        <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
-    </Style>
     <Style Selector="TextBox.noteChromeLessTextBox">
         <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
         <Setter Property="Background" Value="Transparent" />

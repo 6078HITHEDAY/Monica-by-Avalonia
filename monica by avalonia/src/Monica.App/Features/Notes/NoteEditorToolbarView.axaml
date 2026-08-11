@@ -42,6 +42,7 @@
 
                 <fa:FACommandBarElementContainer>
                     <Button x:Name="NoteHeadingMenuButton"
+                            Classes="workspaceCommand"
                             ToolTip.Tip="{Binding L[NoteFormat]}"
                             AutomationProperties.Name="{Binding L[NoteFormat]}"
                             Width="40"
@@ -85,6 +86,7 @@
 
                 <fa:FACommandBarElementContainer>
                     <Button x:Name="InsertNoteImageButton"
+                            Classes="workspaceCommand"
                             Tag="image"
                             Click="ToolbarButton_OnClick"
                             IsEnabled="{Binding CanInsertNoteImage}"
@@ -111,6 +113,7 @@
                 </fa:FACommandBarElementContainer>
                 <fa:FACommandBarElementContainer IsVisible="{Binding !IsNoteInspectorPaneVisible}">
                     <Button x:Name="CompactNotePropertiesButton"
+                            Classes="workspaceCommand"
                             IsVisible="{Binding !IsNoteInspectorPaneVisible}"
                             ToolTip.Tip="{Binding L[NoteProperties]}"
                             AutomationProperties.Name="{Binding L[NoteProperties]}"
