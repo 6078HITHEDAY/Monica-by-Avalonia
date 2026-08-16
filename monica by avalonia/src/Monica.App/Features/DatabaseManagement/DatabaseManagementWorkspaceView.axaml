@@ -3,7 +3,7 @@
         <StyleInclude Source="/Features/DatabaseManagement/DatabaseManagementStyles.axaml" />
     </UserControl.Styles>
     <Grid IsVisible="{Binding SelectedSection, Converter={x:Static local:StringConverters.IsDatabaseManagement}}" RowDefinitions="Auto,*" ClipToBounds="True">
-        <Border x:Name="DatabaseOperationsCommandSurface" BorderBrush="{DynamicResource DividerStrokeColorDefaultBrush}" BorderThickness="0,0,0,1" Padding="0,0,0,12" Margin="0,0,0,8">
+        <Border x:Name="DatabaseOperationsCommandSurface" Classes="workspacePageHeader">
             <Grid x:Name="DatabaseHeaderGrid" ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto" ColumnSpacing="12" RowSpacing="8">
                 <TextBlock Classes="workspacePageTitle" Text="{Binding L.DatabaseManagement}" />
                 <TextBlock Grid.Row="1" Classes="workspacePageSubtitle" Text="{Binding VaultSourceCountText}" MaxWidth="720" HorizontalAlignment="Left" />

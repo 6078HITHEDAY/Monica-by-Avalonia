@@ -99,8 +99,8 @@ public sealed class PasswordVaultCompositionUiTests
         var detailRegion = view.FindControl<Border>("PasswordDetailRegion")!;
         Assert.False(view.IsWideLayout);
         Assert.False(view.FindControl<Border>("PasswordFolderNavigationRegion")!.IsVisible);
-        Assert.Equal(new GridLength(320), layout!.ColumnDefinitions[0].Width);
-        Assert.Equal(new GridLength(1, GridUnitType.Star), layout.ColumnDefinitions[1].Width);
+        Assert.Equal(new GridLength(1, GridUnitType.Star), layout!.ColumnDefinitions[0].Width);
+        Assert.Equal(new GridLength(1.2, GridUnitType.Star), layout.ColumnDefinitions[1].Width);
         Assert.Equal(0, Grid.GetColumn(listRegion));
         Assert.Equal(1, Grid.GetColumn(detailRegion));
         Assert.True(listRegion.IsVisible);

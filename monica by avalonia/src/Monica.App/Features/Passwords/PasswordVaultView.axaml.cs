@@ -156,21 +156,34 @@ public partial class PasswordVaultView : UserControl
             return;
         }
 
-        columns[0].Width = new GridLength(IsWideLayout ? 220 : 320);
-        columns[1].Width = IsWideLayout
-            ? new GridLength(332)
-            : new GridLength(1, GridUnitType.Star);
-        columns[2].Width = IsWideLayout
-            ? new GridLength(1, GridUnitType.Star)
-            : new GridLength(0);
-        Grid.SetColumn(PasswordFolderNavigationRegion, 0);
-        Grid.SetColumn(PasswordListRegion, IsWideLayout ? 1 : 0);
-        Grid.SetColumn(PasswordDetailRegion, IsWideLayout ? 2 : 1);
+        if (IsWideLayout)
+        {
+            columns[0].Width = new GridLength(248);
+            columns[1].Width = new GridLength(360);
+            columns[2].Width = new GridLength(1, GridUnitType.Star);
+            Grid.SetColumn(PasswordFolderNavigationRegion, 0);
+            Grid.SetColumn(PasswordListRegion, 1);
+            Grid.SetColumn(PasswordDetailRegion, 2);
+            PasswordFolderNavigationRegion.IsVisible = true;
+            PasswordListRegion.IsVisible = true;
+            PasswordDetailRegion.IsVisible = true;
+        }
+        else
+        {
+            // Medium: keep list readable and give the detail pane the remaining space.
+            columns[0].Width = new GridLength(1, GridUnitType.Star);
+            columns[1].Width = new GridLength(1.2, GridUnitType.Star);
+            columns[2].Width = new GridLength(0);
+            Grid.SetColumn(PasswordFolderNavigationRegion, 0);
+            Grid.SetColumn(PasswordListRegion, 0);
+            Grid.SetColumn(PasswordDetailRegion, 1);
+            PasswordFolderNavigationRegion.IsVisible = false;
+            PasswordListRegion.IsVisible = true;
+            PasswordDetailRegion.IsVisible = true;
+        }
+
         PasswordListRegion.Margin = new Thickness(0);
         PasswordDetailRegion.Margin = new Thickness(0);
-        PasswordFolderNavigationRegion.IsVisible = IsWideLayout;
-        PasswordListRegion.IsVisible = true;
-        PasswordDetailRegion.IsVisible = true;
         if (detailPane is not null)
         {
             detailPane.ShowBackButton = false;

@@ -40,7 +40,7 @@
                 </fa:FANavigationViewItem>
             </fa:FANavigationView.MenuItems>
 
-            <Grid x:Name="WorkspaceContentGrid" Margin="16,12,16,12" RowDefinitions="Auto,*" Background="{DynamicResource LayerFillColorDefaultBrush}">
+            <Grid x:Name="WorkspaceContentGrid" Margin="0" RowDefinitions="Auto,*" Background="{DynamicResource LayerFillColorDefaultBrush}">
                 <Border Grid.Row="0" Classes="workspaceRecoverableStatus" IsVisible="{Binding HasRecoverableStatusMessage}">
                     <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="10">
                         <ic:FluentIcon Icon="Warning" FontSize="18" Foreground="{DynamicResource SystemFillColorCautionBrush}" VerticalAlignment="Top" Margin="0,2,0,0" />

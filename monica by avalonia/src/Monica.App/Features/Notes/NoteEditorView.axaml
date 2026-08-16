@@ -116,15 +116,13 @@
         </Grid>
 
         <StackPanel x:Name="NoteEditorEmptyState"
-                    IsVisible="{Binding HasOpenNoteTabs, Converter={x:Static local:BoolConverters.Not}}"
-                    Width="320"
-                    Spacing="12"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center">
+                    Classes="workspaceEmptyState"
+                    IsVisible="{Binding HasOpenNoteTabs, Converter={x:Static local:BoolConverters.Not}}">
             <ic:FluentIcon Icon="Note" FontSize="38" Foreground="{DynamicResource TextFillColorTertiaryBrush}" HorizontalAlignment="Center" />
             <TextBlock Text="{Binding L[NoteEmptyTitle]}" FontSize="20" FontWeight="SemiBold" TextAlignment="Center" />
             <TextBlock Text="{Binding L[NoteEmptyDescription]}" Foreground="{DynamicResource TextFillColorSecondaryBrush}" TextWrapping="Wrap" TextAlignment="Center" />
-            <Button Command="{Binding AddNoteCommand}"
+            <Button Classes="workspacePrimaryCommand"
+                    Command="{Binding AddNoteCommand}"
                     AutomationProperties.Name="{Binding L.NewSecureNote}"
                     HorizontalAlignment="Center">
                 <StackPanel Orientation="Horizontal" Spacing="8">

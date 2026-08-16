@@ -11,7 +11,7 @@
 </Style>
 <Style Selector="ListBox.databaseSourceList ListBoxItem:selected">
     <Setter Property="BorderBrush" Value="{DynamicResource AccentFillColorDefaultBrush}" />
-    <Setter Property="Background" Value="{DynamicResource ListViewItemBackgroundSelected}" />
+    <Setter Property="Background" Value="{DynamicResource AccentFillColorTertiaryBrush}" />
 </Style>
 <Style Selector="Button.databaseSourceButton">
     <Setter Property="Background" Value="Transparent" />
@@ -55,10 +55,10 @@
     <Setter Property="BorderThickness" Value="1" />
 </Style>
 <Style Selector="Button.databasePivotButton:pointerover">
-    <Setter Property="Background" Value="{DynamicResource ListViewItemBackgroundPointerOver}" />
+    <Setter Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}" />
 </Style>
 <Style Selector="Button.databasePivotButton.accent">
-    <Setter Property="Background" Value="{DynamicResource ListViewItemBackgroundSelected}" />
+    <Setter Property="Background" Value="{DynamicResource AccentFillColorTertiaryBrush}" />
     <Setter Property="BorderBrush" Value="{DynamicResource AccentFillColorDefaultBrush}" />
     <Setter Property="BorderThickness" Value="0,0,0,2" />
 </Style>

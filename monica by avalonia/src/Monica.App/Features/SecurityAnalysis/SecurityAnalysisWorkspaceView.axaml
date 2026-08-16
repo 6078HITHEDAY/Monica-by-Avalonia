@@ -9,7 +9,7 @@
           RowDefinitions="Auto,*"
           HorizontalAlignment="Stretch"
           ClipToBounds="True">
-        <Border x:Name="SecurityTriageCommandSurface" BorderBrush="{DynamicResource DividerStrokeColorDefaultBrush}" BorderThickness="0,0,0,1" Padding="0,0,0,14" Margin="0,0,0,12">
+        <Border x:Name="SecurityTriageCommandSurface" Classes="workspacePageHeader">
             <Grid x:Name="SecurityHeaderGrid" RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="*,Auto" ColumnSpacing="12" RowSpacing="10">
                 <StackPanel MinWidth="0" VerticalAlignment="Top">
                     <TextBlock Classes="workspacePageTitle" Text="{Binding L.SecurityAnalysis}" />

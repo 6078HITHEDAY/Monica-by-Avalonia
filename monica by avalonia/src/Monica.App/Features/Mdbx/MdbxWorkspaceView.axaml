@@ -3,7 +3,7 @@
         <StyleInclude Source="/Features/Mdbx/MdbxStyles.axaml" />
     </UserControl.Styles>
     <Grid IsVisible="{Binding SelectedSection, Converter={x:Static local:StringConverters.IsMdbx}}" RowDefinitions="Auto,*" ClipToBounds="True">
-        <Border x:Name="MdbxEngineCommandSurface" BorderBrush="{DynamicResource DividerStrokeColorDefaultBrush}" BorderThickness="0,0,0,1" Padding="0,0,0,12" Margin="0,0,0,8">
+        <Border x:Name="MdbxEngineCommandSurface" Classes="workspacePageHeader">
             <Grid x:Name="MdbxHeaderGrid" ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto" ColumnSpacing="12" RowSpacing="8">
                 <TextBlock Classes="workspacePageTitle" Text="{Binding L.MdbxVaults}" />
                 <TextBlock Grid.Row="1" Classes="workspacePageSubtitle" Text="{Binding MdbxWorkingCopySummaryText}" MaxWidth="720" HorizontalAlignment="Left" />

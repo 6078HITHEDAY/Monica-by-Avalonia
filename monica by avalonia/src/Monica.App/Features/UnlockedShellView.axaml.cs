@@ -253,9 +253,9 @@ public partial class UnlockedShellView : UserControl
             return;
         }
 
-        WorkspaceContentGrid.Margin = width > 0 && width < CompactContentBreakpoint
-            ? new Thickness(12, 10, 12, 10)
-            : new Thickness(16, 12, 16, 12);
+        // Workspace pages own their internal padding so chrome toolbars and
+        // side panes can sit edge-to-edge under the navigation shell.
+        WorkspaceContentGrid.Margin = new Thickness(0);
     }
 
     private void UpdateCompactNavigationChrome()

@@ -11,7 +11,7 @@
     <StyleInclude Source="/Features/RecycleBin/RecycleBinStyles.axaml" />
 </UserControl.Styles>
 <Grid IsVisible="{Binding SelectedSection, Converter={x:Static local:StringConverters.IsRecycleBin}}" RowDefinitions="Auto,*" HorizontalAlignment="Stretch" ClipToBounds="True">
-    <Border x:Name="RecycleBinLifecycleCommandSurface" BorderBrush="{DynamicResource DividerStrokeColorDefaultBrush}" BorderThickness="0,0,0,1" Padding="0,0,0,12" Margin="0,0,0,8">
+    <Border x:Name="RecycleBinLifecycleCommandSurface" Classes="workspacePageHeader">
         <Grid x:Name="RecycleBinHeaderGrid" ColumnDefinitions="*,320,Auto" RowDefinitions="Auto,Auto" ColumnSpacing="12" MinHeight="56">
             <StackPanel MinWidth="0" VerticalAlignment="Center">
                 <TextBlock Classes="workspacePageTitle" Text="{Binding L.RecycleBin}" />

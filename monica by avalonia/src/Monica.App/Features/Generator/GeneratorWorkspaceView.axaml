@@ -33,10 +33,11 @@
 
         <Grid x:Name="GeneratorContentGrid"
               Grid.Row="1"
-              ColumnDefinitions="340,*"
+              ColumnDefinitions="320,*"
               RowDefinitions="*"
-              ColumnSpacing="14"
-              RowSpacing="14"
+              ColumnSpacing="0"
+              RowSpacing="0"
+              Margin="16,12,16,16"
               MinWidth="0">
             <views:GeneratorOptionsView x:Name="GeneratorOptionsView" />
             <views:GeneratorResultView x:Name="GeneratorResultView" Grid.Column="1" />

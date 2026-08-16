@@ -55,11 +55,11 @@
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
     </Style>
     <Style Selector="ListBox.workspaceList ListBoxItem:pointerover">
-        <Setter Property="Background" Value="{DynamicResource ListViewItemBackgroundPointerOver}" />
+        <Setter Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}" />
     </Style>
     <Style Selector="ListBox.workspaceList ListBoxItem:selected">
         <Setter Property="BorderBrush" Value="{DynamicResource AccentFillColorDefaultBrush}" />
-        <Setter Property="Background" Value="{DynamicResource ListViewItemBackgroundSelected}" />
+        <Setter Property="Background" Value="{DynamicResource AccentFillColorTertiaryBrush}" />
     </Style>
     <Style Selector="ListBox.workspaceList ListBoxItem WrapPanel.workspaceRowActions">
         <Setter Property="IsVisible" Value="False" />
@@ -105,7 +105,7 @@
     <Style Selector="Border.workspaceRecoverableStatus">
         <Setter Property="CornerRadius" Value="8" />
         <Setter Property="Padding" Value="12,10" />
-        <Setter Property="Margin" Value="0,0,0,12" />
+        <Setter Property="Margin" Value="16,12,16,0" />
         <Setter Property="BorderBrush" Value="{DynamicResource SystemFillColorCautionBrush}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Background" Value="{DynamicResource LayerFillColorSubtleBrush}" />
@@ -113,8 +113,8 @@
     <Style Selector="Border.workspacePageHeader">
         <Setter Property="BorderBrush" Value="{DynamicResource DividerStrokeColorDefaultBrush}" />
         <Setter Property="BorderThickness" Value="0,0,0,1" />
-        <Setter Property="Padding" Value="0,0,0,14" />
-        <Setter Property="Margin" Value="0,0,0,14" />
+        <Setter Property="Padding" Value="16,14,16,12" />
+        <Setter Property="Margin" Value="0" />
     </Style>
     <Style Selector="Border.workspacePane">
         <Setter Property="CornerRadius" Value="0" />
@@ -160,7 +160,7 @@
         <Setter Property="BorderThickness" Value="1" />
     </Style>
     <Style Selector="Border.workspaceNavItem.accent">
-        <Setter Property="Background" Value="{DynamicResource ListViewItemBackgroundSelected}" />
+        <Setter Property="Background" Value="{DynamicResource AccentFillColorTertiaryBrush}" />
         <Setter Property="BorderBrush" Value="{DynamicResource AccentFillColorDefaultBrush}" />
     </Style>
     <Style Selector="Button.workspaceNavItem">
@@ -174,10 +174,10 @@
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
     </Style>
     <Style Selector="Button.workspaceNavItem:pointerover">
-        <Setter Property="Background" Value="{DynamicResource ListViewItemBackgroundPointerOver}" />
+        <Setter Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}" />
     </Style>
     <Style Selector="Button.workspaceNavItem.accent">
-        <Setter Property="Background" Value="{DynamicResource ListViewItemBackgroundSelected}" />
+        <Setter Property="Background" Value="{DynamicResource AccentFillColorTertiaryBrush}" />
         <Setter Property="BorderBrush" Value="{DynamicResource AccentFillColorDefaultBrush}" />
     </Style>
     <Style Selector="Button.workspacePivotButton">
@@ -191,16 +191,17 @@
         <Setter Property="BorderThickness" Value="1" />
     </Style>
     <Style Selector="Button.workspacePivotButton:pointerover">
-        <Setter Property="Background" Value="{DynamicResource ListViewItemBackgroundPointerOver}" />
+        <Setter Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}" />
     </Style>
     <Style Selector="Button.workspacePivotButton.accent">
-        <Setter Property="Background" Value="{DynamicResource ListViewItemBackgroundSelected}" />
+        <Setter Property="Background" Value="{DynamicResource AccentFillColorTertiaryBrush}" />
         <Setter Property="BorderBrush" Value="{DynamicResource AccentFillColorDefaultBrush}" />
     </Style>
     <Style Selector="TextBlock.workspacePageTitle">
-        <Setter Property="FontSize" Value="24" />
+        <Setter Property="FontSize" Value="22" />
         <Setter Property="FontWeight" Value="SemiBold" />
         <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+        <Setter Property="LineHeight" Value="28" />
     </Style>
     <Style Selector="TextBlock.workspacePageSubtitle">
         <Setter Property="Foreground" Value="{DynamicResource TextFillColorSecondaryBrush}" />

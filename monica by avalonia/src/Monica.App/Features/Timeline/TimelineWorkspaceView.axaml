@@ -13,7 +13,7 @@
           RowDefinitions="Auto,*"
           HorizontalAlignment="Stretch"
           ClipToBounds="True">
-        <Border x:Name="TimelineQueryCommandSurface" BorderBrush="{DynamicResource DividerStrokeColorDefaultBrush}" BorderThickness="0,0,0,1" Padding="0,0,0,12" Margin="0,0,0,8">
+        <Border x:Name="TimelineQueryCommandSurface" Classes="workspacePageHeader">
             <Grid x:Name="TimelineHeaderGrid" ColumnDefinitions="*,320,Auto" RowDefinitions="Auto,Auto" ColumnSpacing="12" MinHeight="56">
                 <StackPanel MinWidth="0" VerticalAlignment="Center">
                     <TextBlock Classes="workspacePageTitle" Text="{Binding L.Timeline}" />

@@ -64,44 +64,65 @@
                         <fa:FACommandBar.PrimaryCommands>
                             <fa:FACommandBarButton x:Name="AddAuthenticatorButton"
                                                    Command="{Binding AddTotpCommand}"
-                                                   IconSource="Add"
                                                    Label="{Binding TotpManualAddText}"
                                                    ToolTip.Tip="{Binding L.AddAuthenticator}"
-                                                   AutomationProperties.Name="{Binding L.AddAuthenticator}" />
+                                                   AutomationProperties.Name="{Binding L.AddAuthenticator}">
+                                <fa:FACommandBarButton.IconSource>
+                                    <fa:FASymbolIconSource Symbol="Add" />
+                                </fa:FACommandBarButton.IconSource>
+                            </fa:FACommandBarButton>
                             <fa:FACommandBarButton x:Name="ScanAuthenticatorButton"
                                                    Command="{Binding ScanTotpQrCommand}"
-                                                   IconSource="QrCode"
                                                    Label="{Binding TotpScanQrText}"
                                                    ToolTip.Tip="{Binding TotpScanQrText}"
-                                                   AutomationProperties.Name="{Binding TotpScanQrText}" />
+                                                   AutomationProperties.Name="{Binding TotpScanQrText}">
+                                <fa:FACommandBarButton.IconSource>
+                                    <fa:FASymbolIconSource Symbol="Camera" />
+                                </fa:FACommandBarButton.IconSource>
+                            </fa:FACommandBarButton>
                             <fa:FACommandBarButton x:Name="RefreshAuthenticatorButton"
                                                    Command="{Binding LoadCommand}"
-                                                   IconSource="ArrowClockwise"
                                                    Label="{Binding L.Refresh}"
                                                    ToolTip.Tip="{Binding L.Refresh}"
-                                                   AutomationProperties.Name="{Binding L.Refresh}" />
+                                                   AutomationProperties.Name="{Binding L.Refresh}">
+                                <fa:FACommandBarButton.IconSource>
+                                    <fa:FASymbolIconSource Symbol="Refresh" />
+                                </fa:FACommandBarButton.IconSource>
+                            </fa:FACommandBarButton>
                         </fa:FACommandBar.PrimaryCommands>
                         <fa:FACommandBar.SecondaryCommands>
                             <fa:FACommandBarButton Command="{Binding ImportTotpCsvFileCommand}"
                                                    IsEnabled="{Binding CanUseFilePicker}"
-                                                   IconSource="ArrowUpload"
                                                    Label="{Binding L.ImportTotpCsv}"
-                                                   AutomationProperties.Name="{Binding L.ImportTotpCsv}" />
+                                                   AutomationProperties.Name="{Binding L.ImportTotpCsv}">
+                                <fa:FACommandBarButton.IconSource>
+                                    <fa:FASymbolIconSource Symbol="Upload" />
+                                </fa:FACommandBarButton.IconSource>
+                            </fa:FACommandBarButton>
                             <fa:FACommandBarButton Command="{Binding ImportAegisJsonFileCommand}"
                                                    IsEnabled="{Binding CanUseFilePicker}"
-                                                   IconSource="ArrowUpload"
                                                    Label="{Binding L.ImportAegisJson}"
-                                                   AutomationProperties.Name="{Binding L.ImportAegisJson}" />
+                                                   AutomationProperties.Name="{Binding L.ImportAegisJson}">
+                                <fa:FACommandBarButton.IconSource>
+                                    <fa:FASymbolIconSource Symbol="Upload" />
+                                </fa:FACommandBarButton.IconSource>
+                            </fa:FACommandBarButton>
                             <fa:FACommandBarButton Command="{Binding SaveTotpCsvExportCommand}"
                                                    IsEnabled="{Binding CanUseFilePicker}"
-                                                   IconSource="ArrowDownload"
                                                    Label="{Binding L.SaveTotpCsvExport}"
-                                                   AutomationProperties.Name="{Binding L.SaveTotpCsvExport}" />
+                                                   AutomationProperties.Name="{Binding L.SaveTotpCsvExport}">
+                                <fa:FACommandBarButton.IconSource>
+                                    <fa:FASymbolIconSource Symbol="Download" />
+                                </fa:FACommandBarButton.IconSource>
+                            </fa:FACommandBarButton>
                             <fa:FACommandBarButton Command="{Binding SaveAegisJsonExportCommand}"
                                                    IsEnabled="{Binding CanUseFilePicker}"
-                                                   IconSource="ArrowDownload"
                                                    Label="{Binding L.SaveAegisExport}"
-                                                   AutomationProperties.Name="{Binding L.SaveAegisExport}" />
+                                                   AutomationProperties.Name="{Binding L.SaveAegisExport}">
+                                <fa:FACommandBarButton.IconSource>
+                                    <fa:FASymbolIconSource Symbol="Download" />
+                                </fa:FACommandBarButton.IconSource>
+                            </fa:FACommandBarButton>
                         </fa:FACommandBar.SecondaryCommands>
                     </fa:FACommandBar>
                 </Grid>

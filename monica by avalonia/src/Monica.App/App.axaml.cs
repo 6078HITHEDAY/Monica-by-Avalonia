@@ -1,7 +1,10 @@
 using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using Avalonia.Media;
 using Avalonia.Threading;
+using FluentAvalonia.Styling;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Monica.App.Services;
@@ -30,6 +33,16 @@ public partial class App : Application
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
+        Resources.ThemeDictionaries[FluentAvaloniaTheme.HighContrastTheme] = new ResourceDictionary
+        {
+            ["CardBackgroundBrush"] = new SolidColorBrush(Colors.Black),
+            ["CardBorderBrush"] = new SolidColorBrush(Colors.White),
+            ["MutedTextBrush"] = new SolidColorBrush(Color.FromArgb(0xCC, 0xFF, 0xFF, 0xFF)),
+            ["MonicaBarcodeSurfaceBrush"] = new SolidColorBrush(Colors.White),
+            ["MonicaOverlayTextPrimaryBrush"] = new SolidColorBrush(Colors.White),
+            ["MonicaOverlayTextSecondaryBrush"] = new SolidColorBrush(Colors.White),
+            ["MonicaAvatarForegroundBrush"] = new SolidColorBrush(Colors.Black)
+        };
     }
 
     public override void OnFrameworkInitializationCompleted()

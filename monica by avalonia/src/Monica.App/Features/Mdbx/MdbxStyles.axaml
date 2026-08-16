@@ -11,7 +11,7 @@
 </Style>
 <Style Selector="ListBox.mdbxWorkingCopyList ListBoxItem:selected">
     <Setter Property="BorderBrush" Value="{DynamicResource AccentFillColorDefaultBrush}" />
-    <Setter Property="Background" Value="{DynamicResource ListViewItemBackgroundSelected}" />
+    <Setter Property="Background" Value="{DynamicResource AccentFillColorTertiaryBrush}" />
 </Style>
 <Style Selector="Button.mdbxWorkingCopyButton">
     <Setter Property="Background" Value="Transparent" />
@@ -64,10 +64,10 @@
     <Setter Property="BorderThickness" Value="1" />
 </Style>
 <Style Selector="Button.mdbxPivotButton:pointerover">
-    <Setter Property="Background" Value="{DynamicResource ListViewItemBackgroundPointerOver}" />
+    <Setter Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}" />
 </Style>
 <Style Selector="Button.mdbxPivotButton.accent">
-    <Setter Property="Background" Value="{DynamicResource ListViewItemBackgroundSelected}" />
+    <Setter Property="Background" Value="{DynamicResource AccentFillColorTertiaryBrush}" />
     <Setter Property="BorderBrush" Value="{DynamicResource AccentFillColorDefaultBrush}" />
     <Setter Property="BorderThickness" Value="2,0,0,0" />
 </Style>

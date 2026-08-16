@@ -61,17 +61,23 @@
                                      HorizontalAlignment="Stretch">
                         <fa:FACommandBar.PrimaryCommands>
                             <fa:FACommandBarButton Command="{Binding AddWalletItemCommand}"
-                                                   IconSource="Add"
                                                    Label="{Binding L.AddItem}"
                                                    ToolTip.Tip="{Binding L.AddItem}"
-                                                   AutomationProperties.Name="{Binding L.AddItem}" />
+                                                   AutomationProperties.Name="{Binding L.AddItem}">
+                                <fa:FACommandBarButton.IconSource>
+                                    <fa:FASymbolIconSource Symbol="Add" />
+                                </fa:FACommandBarButton.IconSource>
+                            </fa:FACommandBarButton>
                         </fa:FACommandBar.PrimaryCommands>
                         <fa:FACommandBar.SecondaryCommands>
                             <fa:FACommandBarButton Command="{Binding SaveWalletCsvExportCommand}"
                                                    IsEnabled="{Binding CanUseFilePicker}"
-                                                   IconSource="ArrowDownload"
                                                    Label="{Binding L[ExportWalletCsv]}"
-                                                   AutomationProperties.Name="{Binding L[ExportWalletCsv]}" />
+                                                   AutomationProperties.Name="{Binding L[ExportWalletCsv]}">
+                                <fa:FACommandBarButton.IconSource>
+                                    <fa:FASymbolIconSource Symbol="Download" />
+                                </fa:FACommandBarButton.IconSource>
+                            </fa:FACommandBarButton>
                         </fa:FACommandBar.SecondaryCommands>
                     </fa:FACommandBar>
                 </Grid>

@@ -34,10 +34,10 @@
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
     </Style>
     <Style Selector="Button.noteTreeItemButton:pointerover">
-        <Setter Property="Background" Value="{DynamicResource ListViewItemBackgroundPointerOver}" />
+        <Setter Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}" />
     </Style>
     <Style Selector="Button.noteTreeItemButton:pressed">
-        <Setter Property="Background" Value="{DynamicResource ListViewItemBackgroundSelectedPointerOver}" />
+        <Setter Property="Background" Value="{DynamicResource AccentFillColorSecondaryBrush}" />
     </Style>
     <Style Selector="Border.noteNavigationPivot">
         <Setter Property="Background" Value="{DynamicResource ControlFillColorDefaultBrush}" />
@@ -65,10 +65,10 @@
         <Setter Property="BorderThickness" Value="0" />
     </Style>
     <Style Selector="Button.noteTreeGroupButton:pointerover">
-        <Setter Property="Background" Value="{DynamicResource ListViewItemBackgroundPointerOver}" />
+        <Setter Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}" />
     </Style>
     <Style Selector="Button.noteTreeGroupButton.selected">
-        <Setter Property="Background" Value="{DynamicResource ListViewItemBackgroundSelected}" />
+        <Setter Property="Background" Value="{DynamicResource AccentFillColorTertiaryBrush}" />
         <Setter Property="BorderBrush" Value="{DynamicResource AccentFillColorDefaultBrush}" />
         <Setter Property="BorderThickness" Value="2,0,0,0" />
     </Style>

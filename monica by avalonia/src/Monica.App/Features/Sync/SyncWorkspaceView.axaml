@@ -3,7 +3,7 @@
         <StyleInclude Source="/Features/Sync/SyncStyles.axaml" />
     </UserControl.Styles>
     <Grid IsVisible="{Binding SelectedSection, Converter={x:Static local:StringConverters.IsSync}}" RowDefinitions="Auto,*" HorizontalAlignment="Stretch" ClipToBounds="True">
-        <Border x:Name="SyncOperationsCommandSurface" BorderBrush="{DynamicResource DividerStrokeColorDefaultBrush}" BorderThickness="0,0,0,1" Padding="0,0,0,14" Margin="0,0,0,8">
+        <Border x:Name="SyncOperationsCommandSurface" Classes="workspacePageHeader">
             <Grid x:Name="SyncHeaderGrid" ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto,Auto,Auto" ColumnSpacing="12" RowSpacing="8">
                 <TextBlock Classes="workspacePageTitle" Text="{Binding L.SyncAndBackup}" />
                 <TextBlock Grid.Row="1" Classes="workspacePageSubtitle" Text="{Binding L.SyncSubtitle}" MaxWidth="620" HorizontalAlignment="Left" />

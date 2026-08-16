@@ -15,29 +15,41 @@
             <fa:FACommandBar.PrimaryCommands>
                 <fa:FACommandBarButton Command="{Binding CheckCompromisedPasswordsCommand}"
                                        IsEnabled="{Binding !IsSecurityAnalysisBusy}"
-                                       IconSource="Shield"
                                        Label="{Binding L.CheckCompromisedPasswords}"
                                        ToolTip.Tip="{Binding L.CheckCompromisedPasswords}"
-                                       AutomationProperties.Name="{Binding L.CheckCompromisedPasswords}" />
+                                       AutomationProperties.Name="{Binding L.CheckCompromisedPasswords}">
+                    <fa:FACommandBarButton.IconSource>
+                        <fa:FASymbolIconSource Symbol="Permissions" />
+                    </fa:FACommandBarButton.IconSource>
+                </fa:FACommandBarButton>
             </fa:FACommandBar.PrimaryCommands>
             <fa:FACommandBar.SecondaryCommands>
                 <fa:FACommandBarButton Command="{Binding RefreshSecurityAnalysisCommand}"
                                        IsEnabled="{Binding !IsSecurityAnalysisBusy}"
-                                       IconSource="ArrowClockwise"
                                        Label="{Binding L[RefreshSecurityAnalysis]}"
-                                       AutomationProperties.Name="{Binding L[RefreshSecurityAnalysis]}" />
+                                       AutomationProperties.Name="{Binding L[RefreshSecurityAnalysis]}">
+                    <fa:FACommandBarButton.IconSource>
+                        <fa:FASymbolIconSource Symbol="Refresh" />
+                    </fa:FACommandBarButton.IconSource>
+                </fa:FACommandBarButton>
                 <fa:FACommandBarButton x:Name="CancelCompromisedCheckButton"
                                        Command="{Binding CheckCompromisedPasswordsCancelCommand}"
                                        IsVisible="{Binding IsCheckingCompromisedPasswords}"
-                                       IconSource="Dismiss"
                                        Label="{Binding L[CancelSecurityCheck]}"
-                                       AutomationProperties.Name="{Binding L[CancelSecurityCheck]}" />
+                                       AutomationProperties.Name="{Binding L[CancelSecurityCheck]}">
+                    <fa:FACommandBarButton.IconSource>
+                        <fa:FASymbolIconSource Symbol="Cancel" />
+                    </fa:FACommandBarButton.IconSource>
+                </fa:FACommandBarButton>
                 <fa:FACommandBarButton x:Name="CancelSecurityAnalysisRefreshButton"
                                        Command="{Binding RefreshSecurityAnalysisCancelCommand}"
                                        IsVisible="{Binding IsRefreshingSecurityAnalysis}"
-                                       IconSource="Dismiss"
                                        Label="{Binding L[CancelSecurityCheck]}"
-                                       AutomationProperties.Name="{Binding L[CancelSecurityCheck]}" />
+                                       AutomationProperties.Name="{Binding L[CancelSecurityCheck]}">
+                    <fa:FACommandBarButton.IconSource>
+                        <fa:FASymbolIconSource Symbol="Cancel" />
+                    </fa:FACommandBarButton.IconSource>
+                </fa:FACommandBarButton>
             </fa:FACommandBar.SecondaryCommands>
         </fa:FACommandBar>
         <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10" MinHeight="24">

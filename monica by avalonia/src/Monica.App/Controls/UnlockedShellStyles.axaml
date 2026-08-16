@@ -14,28 +14,9 @@
     <Style Selector="fa|FANavigationView.shellNavigation">
         <Setter Property="Background" Value="{DynamicResource LayerFillColorDefaultBrush}" />
     </Style>
-    <!-- Compact rail: keep icon hit targets centered and avoid cramped chrome. -->
-    <Style Selector="fa|FANavigationView.shellNavigation /template/ Button#TogglePaneButton">
-        <Setter Property="Width" Value="40" />
-        <Setter Property="Height" Value="40" />
-        <Setter Property="Margin" Value="4,4,4,2" />
-        <Setter Property="Padding" Value="0" />
-        <Setter Property="HorizontalAlignment" Value="Center" />
-    </Style>
     <Style Selector="fa|FANavigationViewItem.shellNavItem">
         <Setter Property="MinHeight" Value="40" />
         <Setter Property="Margin" Value="4,1" />
-    </Style>
-    <!-- The selected background already communicates the active page in the
-         narrow rail; remove the extra animated pipe that crowds the icon. -->
-    <Style Selector="fa|FANavigationViewItem.shellNavItem.compact:selected /template/ Border#SelectionIndicator">
-        <Setter Property="IsVisible" Value="False" />
-    </Style>
-    <Style Selector="fa|FANavigationViewItem.shellNavItem.compact:selected /template/ Border#SelectedPipe">
-        <Setter Property="IsVisible" Value="False" />
-    </Style>
-    <Style Selector="fa|FANavigationViewItem.shellNavItem.compact:selected /template/ Rectangle#SelectionIndicator">
-        <Setter Property="IsVisible" Value="False" />
     </Style>
     <Style Selector="fa|FANavigationViewItemHeader.shellNavHeader">
         <Setter Property="Margin" Value="12,10,12,4" />

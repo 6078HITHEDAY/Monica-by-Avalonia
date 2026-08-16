@@ -10,11 +10,11 @@
     <Setter Property="VerticalContentAlignment" Value="Stretch" />
 </Style>
 <Style Selector="ListBox.timelineEventStream ListBoxItem:pointerover">
-    <Setter Property="Background" Value="{DynamicResource ListViewItemBackgroundPointerOver}" />
+    <Setter Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}" />
 </Style>
 <Style Selector="ListBox.timelineEventStream ListBoxItem:selected">
     <Setter Property="BorderBrush" Value="{DynamicResource AccentFillColorDefaultBrush}" />
-    <Setter Property="Background" Value="{DynamicResource ListViewItemBackgroundSelected}" />
+    <Setter Property="Background" Value="{DynamicResource AccentFillColorTertiaryBrush}" />
 </Style>
 <Style Selector="Button.timelineEventButton">
     <Setter Property="Background" Value="Transparent" />

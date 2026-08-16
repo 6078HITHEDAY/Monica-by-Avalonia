@@ -27,7 +27,7 @@
 </Style>
 <Style Selector="ListBox.totpAccountList ListBoxItem:selected">
     <Setter Property="BorderBrush" Value="{DynamicResource AccentFillColorDefaultBrush}" />
-    <Setter Property="Background" Value="{DynamicResource ListViewItemBackgroundSelected}" />
+    <Setter Property="Background" Value="{DynamicResource AccentFillColorTertiaryBrush}" />
 </Style>
 <Style Selector="Border.totpAccountRow">
     <Setter Property="Padding" Value="12,10" />
@@ -49,7 +49,7 @@
     <Setter Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}" />
 </Style>
 <Style Selector="Button.totpFilterButton:selected">
-    <Setter Property="Background" Value="{DynamicResource ListViewItemBackgroundSelected}" />
+    <Setter Property="Background" Value="{DynamicResource AccentFillColorTertiaryBrush}" />
 </Style>
 <Style Selector="Border.totpCodeConsole">
     <Setter Property="CornerRadius" Value="0" />

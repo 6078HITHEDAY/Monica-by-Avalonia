@@ -33,15 +33,6 @@
                     <SolidColorBrush x:Key="MonicaOverlayTextSecondaryBrush" Color="#E6FFFFFF" />
                     <SolidColorBrush x:Key="MonicaAvatarForegroundBrush" Color="#101010" />
                 </ResourceDictionary>
-                <ResourceDictionary x:Key="{x:Static styling:FluentAvaloniaTheme.HighContrastTheme}">
-                    <SolidColorBrush x:Key="CardBackgroundBrush" Color="#000000" />
-                    <SolidColorBrush x:Key="CardBorderBrush" Color="#FFFFFF" />
-                    <SolidColorBrush x:Key="MutedTextBrush" Color="#CCFFFFFF" />
-                    <SolidColorBrush x:Key="MonicaBarcodeSurfaceBrush" Color="#FFFFFF" />
-                    <SolidColorBrush x:Key="MonicaOverlayTextPrimaryBrush" Color="#FFFFFF" />
-                    <SolidColorBrush x:Key="MonicaOverlayTextSecondaryBrush" Color="#FFFFFF" />
-                    <SolidColorBrush x:Key="MonicaAvatarForegroundBrush" Color="#000000" />
-                </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
         </ResourceDictionary>
     </Application.Resources>
