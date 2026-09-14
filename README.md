@@ -1,4 +1,4 @@
-# Monica by Avalonia
+# Monica by Linux
 
 <p align="center">
   <img src="monica%20by%20avalonia/src/Monica.App/Assets/Logo.png"
@@ -23,11 +23,11 @@
   <img src="https://img.shields.io/badge/license-GPL--3.0-blue?style=flat-square"
        alt="GPL-3.0 license" />
 </p>
+* 这是一个个人维护的，给自己使用的Linux版本
 
 ## 产品定位
 
-Monica by Avalonia 是 Monica 的 **Linux 桌面**实现。本仓库只维护 Linux
-目标，不再构建或发布 Windows / macOS 包。它不是把 Android 界面直接搬到桌面：
+Monica by Linux 是 Monica 的 **Linux 桌面**实现。本仓库只维护 Linux为目标，构建或发布deb，rpm，flathub包。
 
 - **产品与安全基线来自 Monica Android。** 数据格式、核心能力、安全边界和兼容路线
   以主应用为准。
@@ -57,22 +57,6 @@ Monica by Avalonia 是 Monica 的 **Linux 桌面**实现。本仓库只维护 Li
 Bitwarden 在线同步包括账户认证、支持的双因素挑战、待上传变更、远端下载与合并、
 嵌套文件夹元数据和冲突备份。协议兼容与安全限制记录在
 [Bitwarden 在线同步边界](docs/bitwarden-online-sync-boundary.md)。
-
-## 界面一览
-
-以下截图由真实 Monica AppHost 使用临时 canonical MDBX vault 自动生成，不包含个人数据。
-
-### 密码库与嵌套目录
-
-![Monica 密码库的三栏桌面布局，左侧显示嵌套目录，中间显示密码列表，右侧显示详情](docs/images/password-vault.png)
-
-### 安全笔记
-
-![Monica 安全笔记编辑器，左侧编辑 Markdown，右侧显示实时预览](docs/images/secure-notes.png)
-
-### 动态口令
-
-![Monica 动态口令工作区，包含分组列表、当前验证码、操作命令和详情](docs/images/authenticator.png)
 
 ## 架构与维护边界
 
