@@ -4733,11 +4733,6 @@ public sealed partial class PasswordManagementTests
                 IsBackground = true,
                 Name = "Monica password tests STA"
             };
-            if (OperatingSystem.IsWindows())
-            {
-                _thread.SetApartmentState(ApartmentState.STA);
-            }
-
             _thread.Start();
         }
 

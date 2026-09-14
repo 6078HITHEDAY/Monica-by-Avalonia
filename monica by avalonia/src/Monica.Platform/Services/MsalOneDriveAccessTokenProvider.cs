@@ -25,8 +25,6 @@ public sealed class MsalOneDriveAccessTokenProvider : IOneDriveAccessTokenProvid
     public const string ClientId = "2aaf8c2c-b817-4085-9517-586a4a113dfc";
     private const string Authority = "https://login.microsoftonline.com/common";
     private const string CacheFileName = "onedrive-msal-cache.bin";
-    private const string MacKeychainService = "com.monicapass.desktop.onedrive";
-    private const string MacKeychainAccount = "msal-cache";
     private const string LinuxKeyringSchema = "com.monicapass.desktop.onedrive";
     private const string LinuxKeyringLabel = "Monica OneDrive token cache";
     private static readonly string[] Scopes = ["User.Read", "Files.ReadWrite"];
@@ -164,7 +162,6 @@ public sealed class MsalOneDriveAccessTokenProvider : IOneDriveAccessTokenProvid
             var cacheDirectory = MonicaAppDataPaths.GetPath("identity");
             Directory.CreateDirectory(cacheDirectory);
             var properties = new StorageCreationPropertiesBuilder(CacheFileName, cacheDirectory)
-                .WithMacKeyChain(MacKeychainService, MacKeychainAccount)
                 .WithLinuxKeyring(
                     LinuxKeyringSchema,
                     MsalCacheHelper.LinuxKeyRingDefaultCollection,

@@ -43,7 +43,6 @@ jobs:
       informational_version: ${{ steps.version.outputs.informational_version }}
       tag: ${{ steps.version.outputs.tag }}
       modes_json: ${{ steps.modes.outputs.modes_json }}
-      macos_matrix_json: ${{ steps.modes.outputs.macos_matrix_json }}
 
     steps:
       - name: Checkout
@@ -70,21 +69,13 @@ jobs:
             $modes = @('${{ inputs.build_mode }}')
           }
 
-          $macosMatrix = @()
-          foreach ($mode in $modes) {
-            $macosMatrix += @{ mode = $mode; rid = 'osx-x64'; os = 'macos-15-intel' }
-            $macosMatrix += @{ mode = $mode; rid = 'osx-arm64'; os = 'macos-15' }
-          }
-
           $modesJson = ConvertTo-Json $modes -Compress
-          $macosMatrixJson = ConvertTo-Json @{ include = $macosMatrix } -Compress
           "modes_json=$modesJson" >> $env:GITHUB_OUTPUT
-          "macos_matrix_json=$macosMatrixJson" >> $env:GITHUB_OUTPUT
 
   quality:
     name: Verify commercial release gates
     needs: version
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
@@ -97,6 +88,9 @@ jobs:
         uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Install Linux NativeAOT dependencies
+        run: sudo apt-get update && sudo apt-get install -y clang zlib1g-dev libsecret-1-0
 
       - name: Verify
         shell: pwsh
@@ -117,65 +111,6 @@ jobs:
           name: release-gate-test-results
           path: ${{ env.PROJECT_DIR }}/TestResults/**/*.trx
           if-no-files-found: ignore
-
-  windows:
-    name: Windows Inno Setup ${{ matrix.mode }}
-    needs:
-      - version
-      - quality
-    runs-on: windows-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        mode: ${{ fromJson(needs.version.outputs.modes_json) }}
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          fetch-depth: 0
-          persist-credentials: false
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
-        with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
-
-      - name: Install Inno Setup
-        run: choco install innosetup --no-progress -y
-
-      - name: Publish Windows
-        id: publish
-        shell: pwsh
-        working-directory: ${{ env.PROJECT_DIR }}
-        run: >
-          ./eng/ci/publish-desktop.ps1
-          -Project "${{ env.APP_PROJECT }}"
-          -RuntimeIdentifier win-x64
-          -Mode "${{ matrix.mode }}"
-          -Version "${{ needs.version.outputs.version }}"
-          -VersionPrefix "${{ needs.version.outputs.version_prefix }}"
-          -PackageVersion "${{ needs.version.outputs.package_version }}"
-          -AssemblyVersion "${{ needs.version.outputs.assembly_version }}"
-          -FileVersion "${{ needs.version.outputs.file_version }}"
-          -InformationalVersion "${{ needs.version.outputs.informational_version }}"
-
-      - name: Build installer
-        shell: pwsh
-        working-directory: ${{ env.PROJECT_DIR }}
-        run: >
-          ./eng/package/package-windows-inno.ps1
-          -PublishDirectory "${{ steps.publish.outputs.publish_dir }}"
-          -OutputDirectory artifacts/release/windows
-          -Version "${{ needs.version.outputs.version }}"
-          -Mode "${{ matrix.mode }}"
-
-      - name: Upload installer
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
-        with:
-          name: Monica-${{ needs.version.outputs.version }}-windows-${{ matrix.mode }}-setup
-          path: ${{ env.PROJECT_DIR }}/artifacts/release/windows/*.exe
-          if-no-files-found: error
 
   linux:
     name: Linux packages ${{ matrix.rid }} ${{ matrix.mode }}
@@ -300,72 +235,14 @@ jobs:
           path: ${{ env.PROJECT_DIR }}/artifacts/release/linux/*.rpm
           if-no-files-found: error
 
-  macos:
-    name: macOS DMG ${{ matrix.rid }} ${{ matrix.mode }}
-    needs:
-      - version
-      - quality
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix: ${{ fromJson(needs.version.outputs.macos_matrix_json) }}
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          fetch-depth: 0
-          persist-credentials: false
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
-        with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
-
-      - name: Publish macOS
-        id: publish
-        shell: pwsh
-        working-directory: ${{ env.PROJECT_DIR }}
-        run: >
-          ./eng/ci/publish-desktop.ps1
-          -Project "${{ env.APP_PROJECT }}"
-          -RuntimeIdentifier "${{ matrix.rid }}"
-          -Mode "${{ matrix.mode }}"
-          -Version "${{ needs.version.outputs.version }}"
-          -VersionPrefix "${{ needs.version.outputs.version_prefix }}"
-          -PackageVersion "${{ needs.version.outputs.package_version }}"
-          -AssemblyVersion "${{ needs.version.outputs.assembly_version }}"
-          -FileVersion "${{ needs.version.outputs.file_version }}"
-          -InformationalVersion "${{ needs.version.outputs.informational_version }}"
-
-      - name: Build dmg
-        shell: bash
-        working-directory: ${{ env.PROJECT_DIR }}
-        run: >
-          bash ./eng/package/package-macos-dmg.sh
-          "${{ steps.publish.outputs.publish_dir }}"
-          "artifacts/release/macos"
-          "${{ needs.version.outputs.version }}"
-          "${{ matrix.rid }}"
-          "${{ matrix.mode }}"
-
-      - name: Upload dmg
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
-        with:
-          name: Monica-${{ needs.version.outputs.version }}-${{ matrix.rid }}-${{ matrix.mode }}-dmg
-          path: ${{ env.PROJECT_DIR }}/artifacts/release/macos/*.dmg
-          if-no-files-found: error
-
   publish:
     name: Publish draft GitHub release
     needs:
       - version
       - quality
-      - windows
       - linux
-      - macos
     runs-on: ubuntu-latest
-    if: ${{ always() && needs.version.result == 'success' && needs.quality.result == 'success' && needs.windows.result == 'success' && needs.linux.result == 'success' && needs.macos.result == 'success' }}
+    if: ${{ always() && needs.version.result == 'success' && needs.quality.result == 'success' && needs.linux.result == 'success' }}
     permissions:
       attestations: write
       contents: write

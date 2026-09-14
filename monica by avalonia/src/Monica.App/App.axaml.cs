@@ -203,21 +203,15 @@ public partial class App : Application
             () => mainWindow,
             _.GetRequiredService<IPlatformIntegrationService>()));
         services.AddSingleton<IBrowserBridgeService>(provider =>
-            OperatingSystem.IsWindows() || OperatingSystem.IsLinux()
-                ? new LoopbackBrowserBridgeService(provider.GetRequiredService<IPlatformIntegrationService>())
-                : new CapabilityOnlyBrowserBridgeService(provider.GetRequiredService<IPlatformIntegrationService>()));
-        services.AddSingleton<INativePasskeyService>(provider => OperatingSystem.IsWindows()
-            ? new WindowsNativePasskeyService(provider.GetRequiredService<IPlatformIntegrationService>())
-            : new CapabilityOnlyNativePasskeyService(provider.GetRequiredService<IPlatformIntegrationService>()));
+            new LoopbackBrowserBridgeService(provider.GetRequiredService<IPlatformIntegrationService>()));
+        services.AddSingleton<INativePasskeyService>(provider =>
+            new CapabilityOnlyNativePasskeyService(provider.GetRequiredService<IPlatformIntegrationService>()));
         services.AddSingleton<ITrayService>(provider =>
-            OperatingSystem.IsWindows() || OperatingSystem.IsLinux()
-                ? new AvaloniaTrayService(
-                    provider.GetRequiredService<IPlatformIntegrationService>(),
-                    provider.GetRequiredService<ILocalizationService>())
-                : new CapabilityOnlyTrayService(provider.GetRequiredService<IPlatformIntegrationService>()));
-        services.AddSingleton<IGlobalHotkeyService>(provider => OperatingSystem.IsWindows()
-            ? new WindowsGlobalHotkeyService(provider.GetRequiredService<IPlatformIntegrationService>())
-            : new CapabilityOnlyGlobalHotkeyService(provider.GetRequiredService<IPlatformIntegrationService>()));
+            new AvaloniaTrayService(
+                provider.GetRequiredService<IPlatformIntegrationService>(),
+                provider.GetRequiredService<ILocalizationService>()));
+        services.AddSingleton<IGlobalHotkeyService>(provider =>
+            new CapabilityOnlyGlobalHotkeyService(provider.GetRequiredService<IPlatformIntegrationService>()));
         services.AddSingleton<IExternalLinkService, SystemExternalLinkService>();
         services.AddSingleton<IWebDavBackupService, WebDavBackupService>();
         services.AddSingleton<IWebDavBackupCryptoService, WebDavBackupCryptoService>();
@@ -232,7 +226,7 @@ public partial class App : Application
         services.AddSingleton<ICanonicalVaultBootstrapService, CanonicalVaultBootstrapService>();
         services.AddSingleton<IClipboardAdapter>(_ => new AvaloniaClipboardAdapter(() => mainWindow));
         services.AddSingleton<IClipboardService, SecureClipboardService>();
-        services.AddSingleton<IWindowPrivacyService>(_ => new WindowPrivacyService(() => mainWindow));
+        services.AddSingleton<IWindowPrivacyService>(_ => new DisabledWindowPrivacyService());
         services.AddSingleton<PasswordAttachmentFileService>(_ => new PasswordAttachmentFileService(
             () => mainWindow,
             _.GetRequiredService<ILocalizationService>(),

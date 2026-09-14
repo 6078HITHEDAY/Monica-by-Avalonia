@@ -34,10 +34,9 @@ internal static class AtomicFileWriter
                 BufferSize = BufferSize,
                 Options = FileOptions.Asynchronous | FileOptions.SequentialScan
             };
-            if (!OperatingSystem.IsWindows())
-            {
-                streamOptions.UnixCreateMode = UnixFileMode.UserRead | UnixFileMode.UserWrite;
-            }
+#pragma warning disable CA1416 // Linux-only product; Unix file mode is intentional.
+            streamOptions.UnixCreateMode = UnixFileMode.UserRead | UnixFileMode.UserWrite;
+#pragma warning restore CA1416
 
             await using (var stream = new FileStream(temporaryPath, streamOptions))
             {
