@@ -1,0 +1,5 @@
+{
+  "name": "Monica by Avalonia (Linux)",
+  "user": "ubuntu",
+  "install": "bash .cursor/install.sh"
+}
