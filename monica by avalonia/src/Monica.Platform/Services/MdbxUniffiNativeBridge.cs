@@ -397,7 +397,13 @@ public sealed class MdbxUniffiNativeBridge : IMdbxNativeBridge
 
     private static bool CanLoadNativeLibrary()
     {
-        if (!System.Runtime.InteropServices.NativeLibrary.TryLoad("mdbx_ffi", out var handle))
+        // Plain TryLoad("mdbx_ffi") does not reliably search the app/assembly directory on Linux
+        // self-contained publishes. Match DllImport resolution used by Generated/mdbx_ffi.cs.
+        var assembly = typeof(MdbxUniffiNativeBridge).Assembly;
+        const System.Runtime.InteropServices.DllImportSearchPath searchPath =
+            System.Runtime.InteropServices.DllImportSearchPath.AssemblyDirectory |
+            System.Runtime.InteropServices.DllImportSearchPath.ApplicationDirectory;
+        if (!System.Runtime.InteropServices.NativeLibrary.TryLoad("mdbx_ffi", assembly, searchPath, out var handle))
         {
             return false;
         }

@@ -94,6 +94,12 @@ Requires:       libSM
 Requires:       fontconfig
 Requires:       libsecret
 
+# Self-contained .NET / Skia / UniFFI native binaries must not be stripped.
+# Ubuntu/Debian rpm brp-strip otherwise corrupts libSkiaSharp.so and similar
+# payloads (runtime SIGSEGV during UI rendering).
+%define __strip /bin/true
+%global debug_package %{nil}
+
 %description
 Monica by Avalonia desktop package built in ${mode} mode from ${rid}.
 Sensitive settings use the desktop Secret Service (libsecret). Tray support
