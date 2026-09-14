@@ -160,9 +160,7 @@ public sealed class PasswordAttachmentFileService(
 
         var candidate = Path.GetFullPath(Path.Combine(_attachmentRoot, normalized));
         var fullRoot = Path.GetFullPath(_attachmentRoot);
-        var comparison = OperatingSystem.IsWindows()
-            ? StringComparison.OrdinalIgnoreCase
-            : StringComparison.Ordinal;
+        var comparison = StringComparison.Ordinal;
         if (!IsPathWithinRoot(candidate, fullRoot, comparison))
         {
             throw new InvalidOperationException("Attachment path is outside the Monica attachment store.");

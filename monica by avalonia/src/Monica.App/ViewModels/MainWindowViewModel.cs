@@ -211,10 +211,7 @@ public sealed partial class MainWindowViewModel : ObservableObject
         _ => StatusMessage
     };
     public string ShellPageText => SelectedSectionTitle;
-    public string ShellPlatformText => OperatingSystem.IsWindows() ? "Windows" :
-        OperatingSystem.IsMacOS() ? "macOS" :
-        OperatingSystem.IsLinux() ? "Linux" :
-        "Desktop";
+    public string ShellPlatformText => "Linux";
 
     partial void OnSelectedSectionChanged(string value)
     {

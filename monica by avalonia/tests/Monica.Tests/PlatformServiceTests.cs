@@ -314,68 +314,8 @@ public sealed partial class PlatformServiceTests
         Assert.Equal(PlatformFeatureStatus.Unsupported, service.GetCapability("unknown").Status);
     }
 
-    [Theory]
-    [InlineData("Ctrl+Shift+Space", 0x4006u, 0x20u, "Ctrl+Shift+Space")]
-    [InlineData("Alt+F12", 0x4001u, 0x7Bu, "Alt+F12")]
-    [InlineData("Win+K", 0x4008u, 0x4Bu, "Win+K")]
-    public void Windows_global_hotkey_parser_accepts_desktop_gestures(
-        string gesture,
-        uint expectedModifiers,
-        uint expectedVirtualKey,
-        string expectedNormalized)
-    {
-        var result = WindowsGlobalHotkeyService.TryParseGesture(
-            gesture,
-            out var modifiers,
-            out var virtualKey,
-            out var normalized,
-            out var error);
 
-        Assert.True(result, error);
-        Assert.Equal(expectedModifiers, modifiers);
-        Assert.Equal(expectedVirtualKey, virtualKey);
-        Assert.Equal(expectedNormalized, normalized);
-    }
 
-    [Theory]
-    [InlineData("")]
-    [InlineData("Space")]
-    [InlineData("Ctrl+Mouse1")]
-    [InlineData("Hyper+K")]
-    public void Windows_global_hotkey_parser_rejects_unsupported_gestures(string gesture)
-    {
-        var result = WindowsGlobalHotkeyService.TryParseGesture(
-            gesture,
-            out _,
-            out _,
-            out _,
-            out var error);
-
-        Assert.False(result);
-        Assert.False(string.IsNullOrWhiteSpace(error));
-    }
-
-    [Fact]
-    public void Windows_global_hotkey_service_registers_and_releases_native_hotkey()
-    {
-        if (!OperatingSystem.IsWindows())
-        {
-            return;
-        }
-
-        var integration = new PlatformIntegrationService();
-        using var service = new WindowsGlobalHotkeyService(integration);
-
-        var registered = service.TryRegister("Ctrl+Shift+F24", () => { });
-
-        Assert.True(registered, service.LastError);
-        Assert.True(service.IsRegistered);
-        Assert.Equal("Ctrl+Shift+F24", service.RegisteredGesture);
-
-        service.Unregister();
-
-        Assert.False(service.IsRegistered);
-    }
 
     [Fact]
     public void Platform_capability_service_maps_native_passkey_status()
@@ -397,44 +337,7 @@ public sealed partial class PlatformServiceTests
         Assert.Equal("Credential provider unavailable.", credentialProvider.UnsupportedReason);
     }
 
-    [Fact]
-    public void Windows_native_passkey_service_reports_client_api_without_claiming_provider_registration()
-    {
-        var integration = new PlatformIntegrationService(
-            "Windows",
-            [PlatformIntegrationService.PlatformLimited(PlatformFeatureKeys.NativePasskey, "Credential provider unavailable.")]);
-        var service = new WindowsNativePasskeyService(integration);
 
-        Assert.False(service.Support.CanActAsWindowsCredentialProvider);
-        Assert.Contains("credential-provider", service.Support.StatusReason, StringComparison.OrdinalIgnoreCase);
-        Assert.Equal(PlatformFeatureStatus.PlatformLimited, service.Capability.Status);
-        if (OperatingSystem.IsWindows())
-        {
-            Assert.True(service.Support.IsWebAuthnClientApiAvailable);
-            Assert.True(service.Support.WebAuthnApiVersion > 0);
-        }
-        else
-        {
-            Assert.False(service.Support.IsWebAuthnClientApiAvailable);
-            Assert.Equal(0u, service.Support.WebAuthnApiVersion);
-        }
-    }
-
-    [Fact]
-    public void Windows_platform_catalog_keeps_native_passkey_provider_platform_limited()
-    {
-        if (!OperatingSystem.IsWindows())
-        {
-            return;
-        }
-
-        var capability = new PlatformIntegrationService().GetCapability(PlatformFeatureKeys.NativePasskey);
-
-        Assert.Equal(PlatformFeatureStatus.PlatformLimited, capability.Status);
-        Assert.False(capability.IsUsable);
-        Assert.Contains("WebAuthn client API availability is probed on demand", capability.UnsupportedReason, StringComparison.OrdinalIgnoreCase);
-        Assert.Contains("not a packaged system credential provider", capability.UnsupportedReason, StringComparison.OrdinalIgnoreCase);
-    }
 
     [Fact]
     public async Task Unsupported_secret_protector_throws_platform_reason()
@@ -484,36 +387,35 @@ public sealed partial class PlatformServiceTests
     }
 
     [Fact]
-    public void Secret_protector_factory_selects_platform_adapter()
+    public void Secret_protector_factory_selects_linux_adapter()
     {
         var integration = new PlatformIntegrationService(
-            "TestOS",
+            "Linux",
             [PlatformIntegrationService.Available(PlatformFeatureKeys.SecretProtection, "Secret protection works.")]);
 
         var protector = SecretProtectorFactory.Create(integration);
 
-        if (OperatingSystem.IsWindows())
-        {
-            Assert.IsType<WindowsSecretProtector>(protector);
-        }
-        else if (OperatingSystem.IsLinux())
-        {
-            Assert.IsType<LinuxSecretProtector>(protector);
-        }
-        else
-        {
-            Assert.IsType<UnsupportedSecretProtector>(protector);
-        }
+        Assert.IsType<LinuxSecretProtector>(protector);
+    }
+
+    [Fact]
+    public void Capability_only_native_passkey_service_reports_unavailable_support()
+    {
+        var integration = new PlatformIntegrationService(
+            "Linux",
+            [PlatformIntegrationService.Unsupported(PlatformFeatureKeys.NativePasskey, "Credential provider unavailable.")]);
+        var service = new CapabilityOnlyNativePasskeyService(integration);
+
+        Assert.False(service.Support.CanActAsSystemCredentialProvider);
+        Assert.False(service.Support.IsWebAuthnClientApiAvailable);
+        Assert.Equal(0u, service.Support.WebAuthnApiVersion);
+        Assert.Equal(PlatformFeatureStatus.Unsupported, service.Capability.Status);
+        Assert.Contains("Credential provider unavailable.", service.Support.StatusReason, StringComparison.OrdinalIgnoreCase);
     }
 
     [Fact]
     public void Linux_platform_catalog_enables_usable_desktop_integrations()
     {
-        if (!OperatingSystem.IsLinux())
-        {
-            return;
-        }
-
         var service = new PlatformIntegrationService();
 
         Assert.True(service.GetCapability(PlatformFeatureKeys.SecretProtection).IsUsable);
@@ -794,23 +696,4 @@ public sealed partial class PlatformServiceTests
         }
     }
 
-    [Fact]
-    public async Task Windows_secret_protector_roundtrips_current_user_secret()
-    {
-        if (!OperatingSystem.IsWindows())
-        {
-            return;
-        }
-
-        var integration = new PlatformIntegrationService(
-            "Windows",
-            [PlatformIntegrationService.Available(PlatformFeatureKeys.SecretProtection, "Windows DPAPI is available.")]);
-        var protector = new WindowsSecretProtector(integration);
-
-        var protectedText = await protector.ProtectAsync("secret-value");
-        var roundtripped = await protector.UnprotectAsync(protectedText);
-
-        Assert.NotEqual("secret-value", protectedText);
-        Assert.Equal("secret-value", roundtripped);
-    }
 }

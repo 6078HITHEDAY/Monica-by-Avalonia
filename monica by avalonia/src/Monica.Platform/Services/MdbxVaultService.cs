@@ -220,7 +220,7 @@ public sealed class MdbxCliVaultEngine : IMdbxVaultEngine
             var workspace = FindMdbxWorkspace();
             if (workspace is not null)
             {
-                var debugExe = Path.Combine(workspace, "target", "debug", OperatingSystem.IsWindows() ? "mdbx.exe" : "mdbx");
+                var debugExe = Path.Combine(workspace, "target", "debug", "mdbx");
                 if (File.Exists(debugExe))
                 {
                     return new MdbxCliCommand(debugExe, workspace, []);

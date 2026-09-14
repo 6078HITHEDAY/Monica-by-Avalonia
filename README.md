@@ -26,17 +26,17 @@
 
 ## 产品定位
 
-Monica by Avalonia 是 Monica 的桌面端实现，主要面向 Windows，同时保留
-macOS 与 Linux 的跨平台构建目标。它不是把 Android 界面直接搬到桌面：
+Monica by Avalonia 是 Monica 的 **Linux 桌面**实现。本仓库只维护 Linux
+目标，不再构建或发布 Windows / macOS 包。它不是把 Android 界面直接搬到桌面：
 
 - **产品与安全基线来自 Monica Android。** 数据格式、核心能力、安全边界和兼容路线
   以主应用为准。
-- **桌面交互遵循 WinUI 3 逻辑。** 导航、命令栏、主从布局、键盘操作、窗口生命周期和
-  平台集成按桌面使用习惯设计。
+- **桌面交互沿用 FluentAvalonia / WinUI 风格任务布局。** 导航、命令栏、主从布局、
+  键盘操作、窗口生命周期和 Linux 平台集成按桌面使用习惯设计。
 - **Vault 业务数据以 canonical MDBX 为准。** SQLite 保留应用元数据、迁移状态和集成
   记账，不再作为解锁后 vault 业务数据的双重真源。
 
-本仓库不会生成 Android 或 iOS 包。Monica Android 仍由
+本仓库不会生成 Android、iOS、Windows 或 macOS 包。Monica Android 仍由
 [Monica 主仓库](https://github.com/Monica-Pass/Monica)独立维护和发布。
 
 ## 主要能力
@@ -50,7 +50,7 @@ macOS 与 Linux 的跨平台构建目标。它不是把 Android 界面直接搬�
 | 安全分析 | 弱密码、重复密码、泄露检查入口和按风险优先级组织的处理流程 |
 | 导入导出 | Monica JSON、CSV、Bitwarden JSON、KeePass KDBX、Aegis 等迁移路径 |
 | 同步与备份 | Bitwarden 在线账户同步、WebDAV 备份恢复、OneDrive MDBX 传输和冲突保护 |
-| 桌面集成 | Windows/Linux 托盘、Windows 全局快速搜索、可选截图保护、文件选择器和安全剪贴板 |
+| 桌面集成 | Linux 托盘、浏览器桥、Secret Service 设置加密、文件选择器和安全剪贴板；全局快捷键与截图保护按能力受限 |
 | 浏览器配对 | Chrome/Edge Manifest V3 扩展、仅回环地址的会话令牌桥接和当前站点凭据查询 |
 | MDBX 工具 | Vault 创建、检查、快照、历史、冲突、恢复和数据库管理工作台 |
 
@@ -79,14 +79,14 @@ Bitwarden 在线同步包括账户认证、支持的双因素挑战、待上传�
 ```mermaid
 flowchart TB
     Android["Monica Android\n功能与安全基线"] --> Contract["共享产品契约"]
-    WinUI["WinUI 3\n桌面交互基线"] --> App["Monica.App\nAvalonia Views / ViewModels"]
+    WinUI["FluentAvalonia\n桌面交互风格"] --> App["Monica.App\nAvalonia Views / ViewModels"]
     Contract --> App
     App --> Core["Monica.Core\n领域模型 / 加密 / 导入导出"]
     App --> Data["Monica.Data\n仓储 / 迁移 / 同步协调"]
     App --> Platform["Monica.Platform\nOS / 网络 / Native adapters"]
     Data --> Mdbx["MDBX-1\ncanonical vault"]
     Data --> Sqlite["SQLite\n应用元数据与迁移状态"]
-    Platform --> Native["Windows/Linux adapters / UniFFI / Browser bridge"]
+    Platform --> Native["Linux adapters / UniFFI / Browser bridge"]
     Platform --> Remote["Bitwarden / WebDAV / OneDrive"]
 ```
 
@@ -95,7 +95,7 @@ flowchart TB
 | `src/Monica.App` | Avalonia 窗口、按功能拆分的 Views/ViewModels、对话框与桌面服务编排 |
 | `src/Monica.Core` | 不依赖 UI 和存储实现的领域模型、密码学策略、TOTP、导入导出与同步契约 |
 | `src/Monica.Data` | canonical MDBX 仓储、SQLite 元数据、迁移、Bitwarden 队列与冲突处理 |
-| `src/Monica.Platform` | Windows/Linux 能力、HTTP 传输、WebDAV/OneDrive、KeePass 与 MDBX UniFFI |
+| `src/Monica.Platform` | Linux 能力、HTTP 传输、WebDAV/OneDrive、KeePass 与 MDBX UniFFI |
 | `tests/Monica.Tests` | 核心、数据、平台、安全和真实子进程集成测试 |
 | `tests/Monica.UiTests` | Avalonia Headless 交互、性能、内存、键盘和页面组成测试 |
 
@@ -113,9 +113,9 @@ flowchart TB
   改端口、退出或重启都会撤销令牌。
 - Bitwarden endpoint、KDF 参数、CipherString 长度和认证类型均受显式策略限制；账户秘密、
   待同步载荷、错误和冲突备份使用 Monica vault AEAD envelope 持久化。
-- Windows 截图保护是用户可配置开关，不会强制阻止截图。
-- Windows WebAuthn 只做客户端 API 可用性探测。Monica 当前不是系统 Credential Provider，
-  因而不会把桌面 passkey 状态误报为 Android Credential Provider 等价能力。
+- Linux 截图保护按平台能力保持不可用；设置页可见但开关禁用。
+- Linux 桌面不探测系统 WebAuthn / Credential Provider。原生 passkey 能力报告为
+  Unsupported，不会把桌面 passkey 状态误报为 Android Credential Provider 等价能力。
 
 详细边界：
 
@@ -129,8 +129,9 @@ flowchart TB
 ### 环境要求
 
 - .NET SDK 10.0 或更高版本
-- Windows、macOS 或 Linux 桌面环境
+- Linux 桌面环境（开发与发布目标）
 - PowerShell 7，用于统一验证与发布脚本
+- `libsecret` 开发库（Secret Service 设置加密）
 - 仅在开发 MDBX CLI 回退时需要 Rust toolchain
 
 ### 还原与构建
@@ -215,36 +216,36 @@ Release 构建 `0 warning / 0 error`。这是特定提交的自动化证据，�
 
 ## 发布与分发边界
 
-- Release 工作流默认生成 **JIT** 包；NativeAOT 仍是实验选项，不作为默认商业构建。
-- Windows、Linux 和 macOS 产物通过质量门后只会创建 **GitHub Draft Release**。
+- Release 工作流默认生成 **JIT** `linux-x64` 包；NativeAOT 仍是实验选项，不作为默认商业构建。
+- Linux 产物通过质量门后只会创建 **GitHub Draft Release**（portable tar.gz、`.deb`、`.rpm`、AppImage、Flatpak）。
 - 每个草稿 Release 包含 `SHA256SUMS`，并由 GitHub build provenance attestation
   关联到当前工作流运行。
-- 当前仓库没有 Windows 原生代码签名证书，也没有 macOS Developer ID 签名与公证凭据。
-  在这些信任链完成并实测前，不应把草稿产物宣传为正式公开安装包。
+- 当前仓库不生成 Windows / macOS 安装包；Linux 发行仓库元数据与仓库签名仍属外部待完成项。
+  在信任链完成并实测前，不应把草稿产物宣传为正式公开安装包。
 - GitHub 分支保护、漏洞警报、秘密扫描、推送保护和组织级 Action allow-list 属于远端
   管理员设置，不会由仓库文件静默开启。
 
 本地 JIT 预览包示例：
 
 ```powershell
-dotnet publish "src\Monica.App\Monica.App.csproj" `
+dotnet publish "src/Monica.App/Monica.App.csproj" `
   --configuration Release `
-  --runtime win-x64 `
+  --runtime linux-x64 `
   --self-contained true `
   /p:PublishAot=false
 ```
 
-项目声明的运行时目标包括 `win-x64`、`osx-x64`、`osx-arm64`、
-`linux-x64` 和 `linux-arm64`。声明目标不等于每个平台已经完成签名、商店认证或
-人工验收，具体状态以[发布就绪矩阵](docs/release-readiness.md)为准。
+项目声明的运行时目标为 `linux-x64` 与 `linux-arm64`。Release CI 默认只发布
+`linux-x64`。声明目标不等于每个架构已经完成人工验收，具体状态以
+[发布就绪矩阵](docs/release-readiness.md)为准。
 
 ## MDBX 开发
 
 应用优先使用 native UniFFI bridge。开发环境需要显式测试 CLI 回退时，可设置：
 
 ```powershell
-$env:MONICA_MDBX_WORKSPACE = "D:\github\monicapass\Mdbx"
-$env:MONICA_MDBX_CLI = "D:\github\monicapass\Mdbx\target\debug\mdbx.exe"
+$env:MONICA_MDBX_WORKSPACE = "/path/to/Mdbx"
+$env:MONICA_MDBX_CLI = "/path/to/Mdbx/target/debug/mdbx"
 ```
 
 MDBX 客户端必须通过 storage/repository API 或明确的 FFI facade 维护 commit、
@@ -267,7 +268,7 @@ MDBX 当作普通 SQLite 表直接改写。
 
 - [Monica](https://github.com/Monica-Pass/Monica)：Android 主应用、产品与安全基线。
 - [MDBX](https://github.com/Monica-Pass/Mdbx)：Monica 的本地优先 vault 格式与长期兼容路线。
-- Monica by Avalonia：遵循桌面平台逻辑的 Windows/macOS/Linux 实现。
+- Monica by Avalonia：仅维护 Linux 桌面的 Monica 密码库实现。
 
 ## 致谢
 
