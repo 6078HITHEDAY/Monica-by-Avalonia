@@ -208,7 +208,7 @@ jobs:
       - name: Install package tools
         run: >
           sudo apt-get update && sudo apt-get install -y
-          clang zlib1g-dev dpkg-dev fakeroot
+          clang zlib1g-dev dpkg-dev fakeroot rpm
           flatpak flatpak-builder
           libsecret-1-0
 
@@ -261,6 +261,17 @@ jobs:
           "${{ matrix.rid }}"
           "${{ matrix.mode }}"
 
+      - name: Build RPM
+        shell: bash
+        working-directory: ${{ env.PROJECT_DIR }}
+        run: >
+          bash ./eng/package/package-linux-rpm.sh
+          "${{ steps.publish.outputs.publish_dir }}"
+          "artifacts/release/linux"
+          "${{ needs.version.outputs.version }}"
+          "${{ matrix.rid }}"
+          "${{ matrix.mode }}"
+
       - name: Upload deb
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
@@ -280,6 +291,13 @@ jobs:
         with:
           name: Monica-${{ needs.version.outputs.version }}-${{ matrix.rid }}-${{ matrix.mode }}-flatpak
           path: ${{ env.PROJECT_DIR }}/artifacts/release/linux/*.flatpak
+          if-no-files-found: error
+
+      - name: Upload RPM
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: Monica-${{ needs.version.outputs.version }}-${{ matrix.rid }}-${{ matrix.mode }}-rpm
+          path: ${{ env.PROJECT_DIR }}/artifacts/release/linux/*.rpm
           if-no-files-found: error
 
   macos:
