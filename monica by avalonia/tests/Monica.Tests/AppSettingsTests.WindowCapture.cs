@@ -55,7 +55,10 @@ public sealed partial class AppSettingsTests
         settings.Current.WindowCaptureProtectionEnabled = false;
         await settings.SaveAsync();
         var privacy = new CapturingWindowPrivacyService();
-        var viewModel = CreateViewModel(path, windowPrivacyService: privacy);
+        var viewModel = CreateViewModel(
+            path,
+            platformIntegrationService: CreateWindowSecurityAvailableIntegration(),
+            windowPrivacyService: privacy);
 
         viewModel.ApplyWindowCapturePolicy();
         await viewModel.InitializeCommand.ExecuteAsync(null);
@@ -85,7 +88,10 @@ public sealed partial class AppSettingsTests
         settings.Current.WindowCaptureProtectionEnabled = true;
         await settings.SaveAsync();
         var privacy = new CapturingWindowPrivacyService();
-        var viewModel = CreateViewModel(path, windowPrivacyService: privacy);
+        var viewModel = CreateViewModel(
+            path,
+            platformIntegrationService: CreateWindowSecurityAvailableIntegration(),
+            windowPrivacyService: privacy);
 
         viewModel.ApplyWindowCapturePolicy();
         Assert.False(privacy.LastEnabled);
@@ -95,6 +101,41 @@ public sealed partial class AppSettingsTests
         Assert.True(viewModel.WindowCaptureProtectionEnabled);
         Assert.True(privacy.LastEnabled);
     }
+
+    [Fact]
+    public async Task Window_capture_toggle_stays_off_when_window_security_is_limited()
+    {
+        var path = GetTempPath();
+        var settings = new Monica.App.Services.AppSettingsService(path);
+        await settings.LoadAsync();
+        settings.Current.WindowCaptureProtectionEnabled = true;
+        await settings.SaveAsync();
+        var privacy = new CapturingWindowPrivacyService();
+        var integration = new Monica.Platform.Services.PlatformIntegrationService(
+            "LimitedOS",
+            [
+                Monica.Platform.Services.PlatformIntegrationService.PlatformLimited(
+                    Monica.Platform.Services.PlatformFeatureKeys.WindowSecurity,
+                    "Screenshot protection depends on the compositor.")
+            ]);
+        var viewModel = CreateViewModel(path, platformIntegrationService: integration, windowPrivacyService: privacy);
+
+        await viewModel.InitializeCommand.ExecuteAsync(null);
+        viewModel.WindowCaptureProtectionEnabled = true;
+
+        Assert.False(viewModel.CanUseWindowSecurity);
+        Assert.False(viewModel.WindowCaptureProtectionEnabled);
+        Assert.False(privacy.LastEnabled);
+    }
+
+    private static Monica.Platform.Services.IPlatformIntegrationService CreateWindowSecurityAvailableIntegration() =>
+        new Monica.Platform.Services.PlatformIntegrationService(
+            "TestOS",
+            [
+                Monica.Platform.Services.PlatformIntegrationService.Available(
+                    Monica.Platform.Services.PlatformFeatureKeys.WindowSecurity,
+                    "Window capture protection is available.")
+            ]);
 
     private sealed class CapturingWindowPrivacyService : Monica.App.Services.IWindowPrivacyService
     {

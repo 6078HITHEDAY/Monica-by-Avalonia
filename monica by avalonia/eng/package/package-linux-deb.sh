@@ -12,6 +12,9 @@ if [[ ! -d "$publish_dir" ]]; then
   exit 1
 fi
 
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+linux_assets_dir="$script_dir/linux"
+
 arch="amd64"
 case "$rid" in
   linux-x64) arch="amd64" ;;
@@ -25,10 +28,11 @@ install_dir="$package_root/usr/lib/monica"
 bin_dir="$package_root/usr/bin"
 desktop_dir="$package_root/usr/share/applications"
 icon_dir="$package_root/usr/share/icons/hicolor/256x256/apps"
+metainfo_dir="$package_root/usr/share/metainfo"
 control_dir="$package_root/DEBIAN"
 
 rm -rf "$package_root"
-mkdir -p "$install_dir" "$bin_dir" "$desktop_dir" "$icon_dir" "$control_dir" "$output_dir"
+mkdir -p "$install_dir" "$bin_dir" "$desktop_dir" "$icon_dir" "$metainfo_dir" "$control_dir" "$output_dir"
 cp -a "$publish_dir/." "$install_dir/"
 
 chmod +x "$install_dir/Monica.App" || true
@@ -39,20 +43,9 @@ exec /usr/lib/monica/Monica.App "$@"
 EOF
 chmod 0755 "$bin_dir/monica"
 
-if [[ -f "$install_dir/Assets/Logo.png" ]]; then
-  cp "$install_dir/Assets/Logo.png" "$icon_dir/monica.png"
-fi
-
-cat > "$desktop_dir/monica.desktop" <<EOF
-[Desktop Entry]
-Type=Application
-Name=Monica
-Comment=Monica password and secure vault manager
-Exec=monica
-Icon=monica
-Terminal=false
-Categories=Utility;Security;
-EOF
+cp "$linux_assets_dir/monica.desktop" "$desktop_dir/monica.desktop"
+cp "$linux_assets_dir/monica.png" "$icon_dir/monica.png"
+cp "$linux_assets_dir/com.monicapass.Monica.metainfo.xml" "$metainfo_dir/com.monicapass.Monica.metainfo.xml"
 
 installed_size="$(du -sk "$package_root/usr" | cut -f1)"
 cat > "$control_dir/control" <<EOF
@@ -63,7 +56,7 @@ Priority: optional
 Architecture: $arch
 Maintainer: Monica Maintainers <maintainers@example.com>
 Installed-Size: $installed_size
-Depends: libc6, libx11-6, libice6, libsm6, libfontconfig1
+Depends: libc6, libx11-6, libice6, libsm6, libfontconfig1, libsecret-1-0
 Description: Monica password and secure vault manager
  Monica by Avalonia desktop package built in $mode mode from $rid.
 EOF

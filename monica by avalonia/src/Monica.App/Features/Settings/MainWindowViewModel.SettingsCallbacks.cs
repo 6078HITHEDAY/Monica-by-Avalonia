@@ -86,6 +86,12 @@ public sealed partial class MainWindowViewModel
 
     partial void OnWindowCaptureProtectionEnabledChanged(bool value)
     {
+        if (value && !CanUseWindowSecurity)
+        {
+            WindowCaptureProtectionEnabled = false;
+            return;
+        }
+
         _windowPrivacyService.SetCaptureProtection(value);
         UpdateSettings(settings => settings.WindowCaptureProtectionEnabled = value);
     }

@@ -66,10 +66,22 @@ class Program
 
     // Avalonia configuration, don't remove; also used by visual designer.
     public static AppBuilder BuildAvaloniaApp()
-        => AppBuilder.Configure<App>()
+    {
+        var builder = AppBuilder.Configure<App>()
             .UsePlatformDetect()
             .WithInterFont()
             .LogToTrace();
+
+        if (OperatingSystem.IsLinux())
+        {
+            builder = builder.With(new X11PlatformOptions
+            {
+                WmClass = "monica"
+            });
+        }
+
+        return builder;
+    }
 
     private static async Task<int> RunVaultSmokeTestAsync(string[] args)
     {

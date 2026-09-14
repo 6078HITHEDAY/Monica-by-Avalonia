@@ -4,7 +4,7 @@ using System.Security.Cryptography;
 
 namespace Monica.Platform.Services;
 
-public sealed class WindowsBrowserBridgeService(IPlatformIntegrationService platformIntegrationService) : IBrowserBridgeService
+public sealed class LoopbackBrowserBridgeService(IPlatformIntegrationService platformIntegrationService) : IBrowserBridgeService
 {
     private readonly object _sync = new();
     private TcpListener? _listener;
@@ -26,11 +26,6 @@ public sealed class WindowsBrowserBridgeService(IPlatformIntegrationService plat
     {
         ArgumentNullException.ThrowIfNull(queryCredentials);
         Stop();
-        if (!OperatingSystem.IsWindows())
-        {
-            LastError = Capability.UnsupportedReason ?? "Browser integration requires Windows.";
-            return false;
-        }
 
         if (port is < 1024 or > 65535)
         {

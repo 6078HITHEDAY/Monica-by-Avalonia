@@ -180,10 +180,10 @@ public sealed class PlatformIntegrationService : IPlatformIntegrationService
             return
             [
                 DesktopEquivalent(PlatformFeatureKeys.FilePicker, "Linux file picking is available through Avalonia storage APIs."),
-                PlatformLimited(PlatformFeatureKeys.SecretProtection, "Secret Service or keyring support needs a Linux adapter."),
-                PlatformLimited(PlatformFeatureKeys.Tray, "Tray behavior depends on the active Linux desktop environment."),
+                Available(PlatformFeatureKeys.SecretProtection, "Linux secret protection uses a Secret Service wrapping key."),
+                Available(PlatformFeatureKeys.Tray, "Linux tray integration is available when the desktop provides StatusNotifier/AppIndicator support."),
                 PlatformLimited(PlatformFeatureKeys.GlobalHotkey, "Global hotkeys depend on the compositor and desktop environment."),
-                PlatformLimited(PlatformFeatureKeys.BrowserBridge, "The authenticated local browser bridge adapter is not implemented yet."),
+                Available(PlatformFeatureKeys.BrowserBridge, "An authenticated loopback browser bridge is available for Linux desktop builds."),
                 Available(PlatformFeatureKeys.ExternalLinks, "External links can be opened through the Linux desktop shell."),
                 Unsupported(PlatformFeatureKeys.NativePasskey, "Android Credential Provider behavior is not available on Linux."),
                 DesktopEquivalent(PlatformFeatureKeys.NativeNotification, "Desktop notifications can replace Android notification features."),

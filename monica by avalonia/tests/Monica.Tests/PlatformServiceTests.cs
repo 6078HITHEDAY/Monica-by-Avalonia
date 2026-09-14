@@ -496,9 +496,78 @@ public sealed partial class PlatformServiceTests
         {
             Assert.IsType<WindowsSecretProtector>(protector);
         }
+        else if (OperatingSystem.IsLinux())
+        {
+            Assert.IsType<LinuxSecretProtector>(protector);
+        }
         else
         {
             Assert.IsType<UnsupportedSecretProtector>(protector);
+        }
+    }
+
+    [Fact]
+    public void Linux_platform_catalog_enables_usable_desktop_integrations()
+    {
+        if (!OperatingSystem.IsLinux())
+        {
+            return;
+        }
+
+        var service = new PlatformIntegrationService();
+
+        Assert.True(service.GetCapability(PlatformFeatureKeys.SecretProtection).IsUsable);
+        Assert.True(service.GetCapability(PlatformFeatureKeys.Tray).IsUsable);
+        Assert.True(service.GetCapability(PlatformFeatureKeys.BrowserBridge).IsUsable);
+        Assert.Equal(PlatformFeatureStatus.PlatformLimited, service.GetCapability(PlatformFeatureKeys.GlobalHotkey).Status);
+        Assert.Equal(PlatformFeatureStatus.PlatformLimited, service.GetCapability(PlatformFeatureKeys.WindowSecurity).Status);
+        Assert.Equal(PlatformFeatureStatus.Unsupported, service.GetCapability(PlatformFeatureKeys.NativePasskey).Status);
+    }
+
+    [Fact]
+    public async Task Linux_secret_protector_roundtrips_with_in_memory_keyring()
+    {
+        var integration = new PlatformIntegrationService(
+            "Linux",
+            [PlatformIntegrationService.Available(PlatformFeatureKeys.SecretProtection, "Secret Service works.")]);
+        var keyring = new InMemoryLinuxKeyringStore();
+        var protector = new LinuxSecretProtector(integration, keyring);
+
+        var protectedText = await protector.ProtectAsync("webdav-secret");
+        var roundTrip = await protector.UnprotectAsync(protectedText);
+
+        Assert.Equal("webdav-secret", roundTrip);
+        Assert.NotEqual("webdav-secret", protectedText);
+        Assert.False(string.IsNullOrWhiteSpace(keyring.LookupPassword("key", "settings-wrapping-key")));
+    }
+
+    [Fact]
+    public async Task Linux_secret_protector_reuses_existing_wrapping_key()
+    {
+        var integration = new PlatformIntegrationService(
+            "Linux",
+            [PlatformIntegrationService.Available(PlatformFeatureKeys.SecretProtection, "Secret Service works.")]);
+        var keyring = new InMemoryLinuxKeyringStore();
+        var first = new LinuxSecretProtector(integration, keyring);
+        var protectedText = await first.ProtectAsync("shared-secret");
+
+        var second = new LinuxSecretProtector(integration, keyring);
+        var roundTrip = await second.UnprotectAsync(protectedText);
+
+        Assert.Equal("shared-secret", roundTrip);
+    }
+
+    private sealed class InMemoryLinuxKeyringStore : ILinuxKeyringStore
+    {
+        private readonly Dictionary<string, string> _values = new(StringComparer.Ordinal);
+
+        public string? LookupPassword(string attributeKey, string attributeValue) =>
+            _values.TryGetValue($"{attributeKey}={attributeValue}", out var value) ? value : null;
+
+        public void StorePassword(string label, string attributeKey, string attributeValue, string password)
+        {
+            _ = label;
+            _values[$"{attributeKey}={attributeValue}"] = password;
         }
     }
 

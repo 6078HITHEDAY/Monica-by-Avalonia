@@ -178,7 +178,7 @@ jobs:
           if-no-files-found: error
 
   linux:
-    name: Linux deb ${{ matrix.rid }} ${{ matrix.mode }}
+    name: Linux packages ${{ matrix.rid }} ${{ matrix.mode }}
     needs:
       - version
       - quality
@@ -206,7 +206,11 @@ jobs:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
       - name: Install package tools
-        run: sudo apt-get update && sudo apt-get install -y clang zlib1g-dev dpkg-dev fakeroot
+        run: >
+          sudo apt-get update && sudo apt-get install -y
+          clang zlib1g-dev dpkg-dev fakeroot
+          flatpak flatpak-builder
+          libsecret-1-0
 
       - name: Publish Linux
         id: publish
@@ -235,11 +239,47 @@ jobs:
           "${{ matrix.rid }}"
           "${{ matrix.mode }}"
 
+      - name: Build AppImage
+        shell: bash
+        working-directory: ${{ env.PROJECT_DIR }}
+        run: >
+          bash ./eng/package/package-linux-appimage.sh
+          "${{ steps.publish.outputs.publish_dir }}"
+          "artifacts/release/linux"
+          "${{ needs.version.outputs.version }}"
+          "${{ matrix.rid }}"
+          "${{ matrix.mode }}"
+
+      - name: Build Flatpak
+        shell: bash
+        working-directory: ${{ env.PROJECT_DIR }}
+        run: >
+          bash ./eng/package/package-linux-flatpak.sh
+          "${{ steps.publish.outputs.publish_dir }}"
+          "artifacts/release/linux"
+          "${{ needs.version.outputs.version }}"
+          "${{ matrix.rid }}"
+          "${{ matrix.mode }}"
+
       - name: Upload deb
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: Monica-${{ needs.version.outputs.version }}-${{ matrix.rid }}-${{ matrix.mode }}-deb
           path: ${{ env.PROJECT_DIR }}/artifacts/release/linux/*.deb
+          if-no-files-found: error
+
+      - name: Upload AppImage
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: Monica-${{ needs.version.outputs.version }}-${{ matrix.rid }}-${{ matrix.mode }}-appimage
+          path: ${{ env.PROJECT_DIR }}/artifacts/release/linux/*.AppImage
+          if-no-files-found: error
+
+      - name: Upload Flatpak
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: Monica-${{ needs.version.outputs.version }}-${{ matrix.rid }}-${{ matrix.mode }}-flatpak
+          path: ${{ env.PROJECT_DIR }}/artifacts/release/linux/*.flatpak
           if-no-files-found: error
 
   macos:
