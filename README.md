@@ -232,6 +232,26 @@ $env:MONICA_MDBX_WORKSPACE = "/path/to/Mdbx"
 $env:MONICA_MDBX_CLI = "/path/to/Mdbx/target/debug/mdbx"
 ```
 
+Linux 发布所用的原生库 `src/Monica.Platform/Mdbx/runtimes/libmdbx_ffi.so` 由 MDBX 仓库的
+**fdf3382**（"Expose MDBX UniFFI bindings for C# clients"）构建。该提交把 `uniffi` 锁定为
+`"=0.29.4"`，与 `src/Monica.Platform/Mdbx/Generated/mdbx_ffi.cs`（由 uniffi-bindgen-cs
+v0.10.0+v0.29.4 生成，contract version 29）ABI 一致。tag `MDBX1.0` / `MDBX2.0` /
+`v3.0.0-alpha.1` 与 master 均已升到 uniffi 0.31.1，**不能**用于当前绑定；fdf3382 次日被
+revert（849bb99），因此只能按 SHA 取用。更换绑定时必须同步更换该提交。
+
+```bash
+git clone https://github.com/Monica-Pass/Mdbx.git && cd Mdbx
+git checkout fdf3382
+cargo build -p mdbx-ffi --release
+# 自检：应输出 mov $0xceaf,%ax（create_vault checksum 52911，与绑定期望一致）
+objdump -d --disassemble=uniffi_mdbx_ffi_checksum_func_create_vault \
+  target/release/libmdbx_ffi.so | grep -o 'mov *\$0x[0-9a-f]*,%ax' | head -1
+cp target/release/libmdbx_ffi.so \
+  "monica by avalonia/src/Monica.Platform/Mdbx/runtimes/libmdbx_ffi.so"
+```
+
+构建依赖：Fedora `sudo dnf install rust cargo`；Debian/Ubuntu 用 rustup 即可，无额外系统库。
+
 MDBX 客户端必须通过 storage/repository API 或明确的 FFI facade 维护 commit、
 object version、tombstone、snapshot、conflict 和 device head 等元数据。不要把
 MDBX 当作普通 SQLite 表直接改写。

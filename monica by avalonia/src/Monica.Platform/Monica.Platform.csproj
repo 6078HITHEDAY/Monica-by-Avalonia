@@ -25,7 +25,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="Mdbx\runtimes\**\*.*" Exclude="Mdbx\runtimes\**\.gitkeep">
+    <!-- 仅发布 Linux：mdbx_ffi.dll 是 Windows PE 载荷，发布/打包时不带，省 4.3MB -->
+    <Content Include="Mdbx\runtimes\**\*.*" Exclude="Mdbx\runtimes\**\.gitkeep;Mdbx\runtimes\**\*.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
     </Content>
