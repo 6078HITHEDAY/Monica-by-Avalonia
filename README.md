@@ -151,9 +151,10 @@ dotnet run --project "src\Monica.App\Monica.App.csproj"
 
 ### Linux 安装与运行
 
-Release 草稿包提供三种 Linux 产物：
+Release 草稿包提供这些 Linux 产物：
 
 - `.deb`（Debian/Ubuntu 系）
+- `.rpm`（Fedora/RHEL/openSUSE 等）
 - `.AppImage`（通用可执行包）
 - `.flatpak`（沙箱包）
 
@@ -161,6 +162,13 @@ Debian/Ubuntu 示例：
 
 ```bash
 sudo apt install ./Monica-*-linux-x64-jit.deb
+monica
+```
+
+Fedora/RHEL 示例：
+
+```bash
+sudo dnf install ./Monica-*-linux-x64-jit.rpm
 monica
 ```
 
