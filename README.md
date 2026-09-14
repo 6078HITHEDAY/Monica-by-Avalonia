@@ -50,7 +50,7 @@ macOS 与 Linux 的跨平台构建目标。它不是把 Android 界面直接搬�
 | 安全分析 | 弱密码、重复密码、泄露检查入口和按风险优先级组织的处理流程 |
 | 导入导出 | Monica JSON、CSV、Bitwarden JSON、KeePass KDBX、Aegis 等迁移路径 |
 | 同步与备份 | Bitwarden 在线账户同步、WebDAV 备份恢复、OneDrive MDBX 传输和冲突保护 |
-| 桌面集成 | Windows 托盘、全局快速搜索、可选截图保护、文件选择器和安全剪贴板 |
+| 桌面集成 | Windows/Linux 托盘、Windows 全局快速搜索、可选截图保护、文件选择器和安全剪贴板 |
 | 浏览器配对 | Chrome/Edge Manifest V3 扩展、仅回环地址的会话令牌桥接和当前站点凭据查询 |
 | MDBX 工具 | Vault 创建、检查、快照、历史、冲突、恢复和数据库管理工作台 |
 
@@ -86,7 +86,7 @@ flowchart TB
     App --> Platform["Monica.Platform\nOS / 网络 / Native adapters"]
     Data --> Mdbx["MDBX-1\ncanonical vault"]
     Data --> Sqlite["SQLite\n应用元数据与迁移状态"]
-    Platform --> Native["Windows API / UniFFI / Browser bridge"]
+    Platform --> Native["Windows/Linux adapters / UniFFI / Browser bridge"]
     Platform --> Remote["Bitwarden / WebDAV / OneDrive"]
 ```
 
@@ -95,7 +95,7 @@ flowchart TB
 | `src/Monica.App` | Avalonia 窗口、按功能拆分的 Views/ViewModels、对话框与桌面服务编排 |
 | `src/Monica.Core` | 不依赖 UI 和存储实现的领域模型、密码学策略、TOTP、导入导出与同步契约 |
 | `src/Monica.Data` | canonical MDBX 仓储、SQLite 元数据、迁移、Bitwarden 队列与冲突处理 |
-| `src/Monica.Platform` | Windows 能力、HTTP 传输、WebDAV/OneDrive、KeePass 与 MDBX UniFFI |
+| `src/Monica.Platform` | Windows/Linux 能力、HTTP 传输、WebDAV/OneDrive、KeePass 与 MDBX UniFFI |
 | `tests/Monica.Tests` | 核心、数据、平台、安全和真实子进程集成测试 |
 | `tests/Monica.UiTests` | Avalonia Headless 交互、性能、内存、键盘和页面组成测试 |
 
@@ -148,6 +148,42 @@ dotnet build Monica.slnx --configuration Release
 ```powershell
 dotnet run --project "src\Monica.App\Monica.App.csproj"
 ```
+
+### Linux 安装与运行
+
+Release 草稿包提供三种 Linux 产物：
+
+- `.deb`（Debian/Ubuntu 系）
+- `.AppImage`（通用可执行包）
+- `.flatpak`（沙箱包）
+
+Debian/Ubuntu 示例：
+
+```bash
+sudo apt install ./Monica-*-linux-x64-jit.deb
+monica
+```
+
+AppImage 示例：
+
+```bash
+chmod +x ./Monica-*-linux-x64-jit.AppImage
+./Monica-*-linux-x64-jit.AppImage
+```
+
+Flatpak 示例：
+
+```bash
+flatpak install --user ./Monica-*-linux-x64-jit.flatpak
+flatpak run com.monicapass.Monica
+```
+
+Linux 桌面集成说明：
+
+- WebDAV 等敏感设置使用 Secret Service（`libsecret`）包装密钥；需要可用的会话密钥环。
+- 托盘依赖 StatusNotifier/AppIndicator。GNOME 可能需要 AppIndicator 扩展。
+- 浏览器扩展桥接在 Linux 上可用；全局快捷键与截图保护仍按平台能力显示为受限。
+- `.desktop` 使用 `StartupWMClass=monica`，与 Avalonia X11 `WmClass` 对齐。
 
 ## 测试与质量门
 

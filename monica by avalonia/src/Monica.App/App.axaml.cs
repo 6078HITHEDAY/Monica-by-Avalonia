@@ -202,17 +202,19 @@ public partial class App : Application
         services.AddSingleton<IFileSystemPickerService>(_ => new AvaloniaFileSystemPickerService(
             () => mainWindow,
             _.GetRequiredService<IPlatformIntegrationService>()));
-        services.AddSingleton<IBrowserBridgeService>(provider => OperatingSystem.IsWindows()
-            ? new WindowsBrowserBridgeService(provider.GetRequiredService<IPlatformIntegrationService>())
-            : new CapabilityOnlyBrowserBridgeService(provider.GetRequiredService<IPlatformIntegrationService>()));
+        services.AddSingleton<IBrowserBridgeService>(provider =>
+            OperatingSystem.IsWindows() || OperatingSystem.IsLinux()
+                ? new LoopbackBrowserBridgeService(provider.GetRequiredService<IPlatformIntegrationService>())
+                : new CapabilityOnlyBrowserBridgeService(provider.GetRequiredService<IPlatformIntegrationService>()));
         services.AddSingleton<INativePasskeyService>(provider => OperatingSystem.IsWindows()
             ? new WindowsNativePasskeyService(provider.GetRequiredService<IPlatformIntegrationService>())
             : new CapabilityOnlyNativePasskeyService(provider.GetRequiredService<IPlatformIntegrationService>()));
-        services.AddSingleton<ITrayService>(provider => OperatingSystem.IsWindows()
-            ? new AvaloniaTrayService(
-                provider.GetRequiredService<IPlatformIntegrationService>(),
-                provider.GetRequiredService<ILocalizationService>())
-            : new CapabilityOnlyTrayService(provider.GetRequiredService<IPlatformIntegrationService>()));
+        services.AddSingleton<ITrayService>(provider =>
+            OperatingSystem.IsWindows() || OperatingSystem.IsLinux()
+                ? new AvaloniaTrayService(
+                    provider.GetRequiredService<IPlatformIntegrationService>(),
+                    provider.GetRequiredService<ILocalizationService>())
+                : new CapabilityOnlyTrayService(provider.GetRequiredService<IPlatformIntegrationService>()));
         services.AddSingleton<IGlobalHotkeyService>(provider => OperatingSystem.IsWindows()
             ? new WindowsGlobalHotkeyService(provider.GetRequiredService<IPlatformIntegrationService>())
             : new CapabilityOnlyGlobalHotkeyService(provider.GetRequiredService<IPlatformIntegrationService>()));
@@ -266,7 +268,8 @@ public partial class App : Application
             () => mainWindow,
             _.GetRequiredService<ILocalizationService>(),
             _.GetRequiredService<IMonicaRepository>()));
-        services.AddSingleton<IAppSettingsService, AppSettingsService>();
+        services.AddSingleton<IAppSettingsService>(provider =>
+            new AppSettingsService(secretProtector: provider.GetRequiredService<ISecretProtector>()));
         services.AddSingleton<ILocalizationService, LocalizationService>();
         services.AddSingleton<IBitwardenDeviceIdentityProvider, BitwardenDeviceIdentityProvider>();
         services.AddSingleton<IVaultUnlockCoordinator, VaultUnlockCoordinator>();

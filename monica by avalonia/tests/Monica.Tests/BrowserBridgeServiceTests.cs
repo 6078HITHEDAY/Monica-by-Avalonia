@@ -12,9 +12,8 @@ public sealed class BrowserBridgeServiceTests
     [Fact]
     public async Task Authenticated_extension_request_returns_origin_scoped_credentials()
     {
-        if (!OperatingSystem.IsWindows()) return;
         var port = ReservePort();
-        using var service = new WindowsBrowserBridgeService(new PlatformIntegrationService());
+        using var service = new LoopbackBrowserBridgeService(new PlatformIntegrationService());
         var requestedOrigins = new List<Uri>();
         Assert.True(service.TryStart(port, (origin, _) =>
         {
@@ -42,9 +41,8 @@ public sealed class BrowserBridgeServiceTests
     [Fact]
     public async Task Bridge_rejects_invalid_token_extension_origin_and_insecure_target()
     {
-        if (!OperatingSystem.IsWindows()) return;
         var port = ReservePort();
-        using var service = new WindowsBrowserBridgeService(new PlatformIntegrationService());
+        using var service = new LoopbackBrowserBridgeService(new PlatformIntegrationService());
         Assert.True(service.TryStart(port, (_, _) => Task.FromResult<IReadOnlyList<BrowserBridgeCredential>>([])));
 
         using var wrongToken = await SendQueryAsync(port, "wrong-token", "https://example.com");
@@ -59,9 +57,8 @@ public sealed class BrowserBridgeServiceTests
     [Fact]
     public async Task Stopping_bridge_revokes_session_and_closes_listener()
     {
-        if (!OperatingSystem.IsWindows()) return;
         var port = ReservePort();
-        using var service = new WindowsBrowserBridgeService(new PlatformIntegrationService());
+        using var service = new LoopbackBrowserBridgeService(new PlatformIntegrationService());
         Assert.True(service.TryStart(port, (_, _) => Task.FromResult<IReadOnlyList<BrowserBridgeCredential>>([])));
         Assert.True(service.SessionToken.Length >= 43);
 
@@ -78,22 +75,31 @@ public sealed class BrowserBridgeServiceTests
         int port,
         string token,
         string targetOrigin,
-        string extensionOrigin = "chrome-extension://abcdefghijklmnop")
+        string? callerOrigin = "chrome-extension://abcdefghijklmnop")
     {
-        using var client = new HttpClient { Timeout = TimeSpan.FromSeconds(5) };
-        using var request = new HttpRequestMessage(HttpMethod.Post, $"http://127.0.0.1:{port}/v1/credentials/query");
-        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
-        request.Headers.TryAddWithoutValidation("Origin", extensionOrigin);
-        request.Content = new StringContent(JsonSerializer.Serialize(new { origin = targetOrigin }), Encoding.UTF8, "application/json");
-        return await client.SendAsync(request);
+        var payload = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(new { origin = targetOrigin }));
+        return await SendRequestAsync(port, token, "/v1/credentials/query", payload, callerOrigin);
     }
 
-    private static async Task<HttpResponseMessage> SendRequestAsync(int port, string token, string path)
+    private static async Task<HttpResponseMessage> SendRequestAsync(
+        int port,
+        string token,
+        string path,
+        byte[]? payload = null,
+        string? callerOrigin = "chrome-extension://abcdefghijklmnop")
     {
         using var client = new HttpClient { Timeout = TimeSpan.FromSeconds(5) };
         using var request = new HttpRequestMessage(HttpMethod.Post, $"http://127.0.0.1:{port}{path}");
         request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
-        request.Headers.TryAddWithoutValidation("Origin", "chrome-extension://abcdefghijklmnop");
+        if (!string.IsNullOrWhiteSpace(callerOrigin))
+        {
+            request.Headers.TryAddWithoutValidation("Origin", callerOrigin);
+        }
+
+        request.Content = new ByteArrayContent(payload ?? Encoding.UTF8.GetBytes("{}"))
+        {
+            Headers = { ContentType = new MediaTypeHeaderValue("application/json") }
+        };
         return await client.SendAsync(request);
     }
 

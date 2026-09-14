@@ -30,13 +30,21 @@ public sealed class DesktopIntegrationUiTests
 
         coordinator.Initialize(viewModel);
 
-        Assert.True(hotkey.IsRegistered);
-        Assert.Equal("Ctrl+Shift+Space", hotkey.RegisteredGesture);
         Assert.False(tray.IsVisible);
+        if (viewModel.CanUseGlobalHotkeyIntegration)
+        {
+            Assert.True(hotkey.IsRegistered);
+            Assert.Equal("Ctrl+Shift+Space", hotkey.RegisteredGesture);
+        }
 
         viewModel.MinimizeToTray = true;
 
         Assert.True(tray.IsVisible);
+
+        if (!viewModel.CanUseGlobalHotkeyIntegration)
+        {
+            return;
+        }
 
         viewModel.QuickSearchEnabled = false;
         await PumpDebounceAsync();

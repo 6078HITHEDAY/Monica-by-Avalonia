@@ -5,11 +5,21 @@
         <StackPanel>
             <fa:FASettingsExpanderItem Content="{Binding L.WindowCaptureProtection}" Description="{Binding L.WindowCaptureProtectionDescription}">
                 <fa:FASettingsExpanderItem.Footer>
-                    <ToggleSwitch x:Name="WindowCaptureProtectionToggle"
-                                  IsChecked="{Binding WindowCaptureProtectionEnabled}"
-                                  OnContent="{Binding L.FeatureEnabled}"
-                                  OffContent="{Binding L.FeatureDisabled}"
-                                  AutomationProperties.Name="{Binding L.WindowCaptureProtection}" />
+                    <StackPanel Spacing="7" MaxWidth="360">
+                        <TextBlock Text="{Binding WindowSecurityIntegrationStatusText}"
+                                   FontSize="12"
+                                   TextWrapping="Wrap"
+                                   Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                                   IsVisible="{Binding !CanUseWindowSecurity}" />
+                        <ToggleSwitch x:Name="WindowCaptureProtectionToggle"
+                                      IsChecked="{Binding WindowCaptureProtectionEnabled}"
+                                      IsEnabled="{Binding CanUseWindowSecurity}"
+                                      OnContent="{Binding L.FeatureEnabled}"
+                                      OffContent="{Binding L.FeatureDisabled}"
+                                      ToolTip.Tip="{Binding WindowSecurityIntegrationStatusText}"
+                                      AutomationProperties.Name="{Binding L.WindowCaptureProtection}"
+                                      AutomationProperties.HelpText="{Binding WindowSecurityIntegrationStatusText}" />
+                    </StackPanel>
                 </fa:FASettingsExpanderItem.Footer>
             </fa:FASettingsExpanderItem>
             <fa:FASettingsExpanderItem Content="{Binding L.AutoLock}" Description="{Binding L.AutoLockDescription}">

@@ -77,11 +77,13 @@ public sealed partial class MainWindowViewModel
         OnPropertyChanged(nameof(CanUseTrayIntegration));
         OnPropertyChanged(nameof(CanUseGlobalHotkeyIntegration));
         OnPropertyChanged(nameof(CanUseBrowserBridgeIntegration));
+        OnPropertyChanged(nameof(CanUseWindowSecurity));
         OnPropertyChanged(nameof(CanOpenExternalLinks));
         OnPropertyChanged(nameof(CanUseFilePicker));
         OnPropertyChanged(nameof(TrayIntegrationStatusText));
         OnPropertyChanged(nameof(GlobalHotkeyIntegrationStatusText));
         OnPropertyChanged(nameof(BrowserBridgeIntegrationStatusText));
+        OnPropertyChanged(nameof(WindowSecurityIntegrationStatusText));
         OnPropertyChanged(nameof(ExternalLinksIntegrationStatusText));
         OnPropertyChanged(nameof(FilePickerIntegrationStatusText));
         OpenGitHubRepositoryCommand.NotifyCanExecuteChanged();

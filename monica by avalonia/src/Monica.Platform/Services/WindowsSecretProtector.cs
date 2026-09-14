@@ -51,8 +51,18 @@ public sealed class WindowsSecretProtector(IPlatformIntegrationService platformI
 
 public static class SecretProtectorFactory
 {
-    public static ISecretProtector Create(IPlatformIntegrationService platformIntegrationService) =>
-        OperatingSystem.IsWindows()
-            ? new WindowsSecretProtector(platformIntegrationService)
-            : new UnsupportedSecretProtector(platformIntegrationService);
+    public static ISecretProtector Create(IPlatformIntegrationService platformIntegrationService)
+    {
+        if (OperatingSystem.IsWindows())
+        {
+            return new WindowsSecretProtector(platformIntegrationService);
+        }
+
+        if (OperatingSystem.IsLinux())
+        {
+            return new LinuxSecretProtector(platformIntegrationService);
+        }
+
+        return new UnsupportedSecretProtector(platformIntegrationService);
+    }
 }

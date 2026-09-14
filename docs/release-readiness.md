@@ -17,11 +17,12 @@
 | Android 是功能与安全基线，桌面按 WinUI 3 交互 | 已验证 | `README.md`、`src/Monica.App/Features/` | `UiArchitectureTests.cs` 及各工作区 Headless 测试 |
 | 密码与笔记支持嵌套分类 | 已验证 | `LocalCategoryPath`、密码/笔记目录投影与管理命令 | `LocalCategoryPathTests.cs`、`SecureNoteTests.cs` |
 | Bitwarden 在线账户双向同步 | 已验证 | `Core/Bitwarden`、`Data/Bitwarden`、`Platform/Bitwarden`、同步工作区 | Bitwarden protocol、authentication、transport、merge、queue、conflict 和 UI 测试 |
-| 浏览器本地配对与站点凭据查询 | 已验证 | `WindowsBrowserBridgeService`、Manifest V3 扩展 | `BrowserBridgeServiceTests.cs`、`DesktopIntegrationUiTests.cs`、协议文档 |
-| Windows 托盘与全局快速搜索 | 已验证 | `AvaloniaTrayService`、`WindowsGlobalHotkeyService` | `DesktopIntegrationUiTests.cs`；非 Windows 平台按 capability 明示限制 |
+| 浏览器本地配对与站点凭据查询 | 已验证 | `LoopbackBrowserBridgeService`、Manifest V3 扩展 | `BrowserBridgeServiceTests.cs`、`DesktopIntegrationUiTests.cs`、协议文档；Windows/Linux 可用 |
+| Windows 托盘与全局快速搜索 | 已验证 | `AvaloniaTrayService`、`WindowsGlobalHotkeyService` | `DesktopIntegrationUiTests.cs`；Linux 托盘已接通，全局快捷键仍平台受限 |
+| Linux 托盘与 Secret Service 设置加密 | 已验证 | `AvaloniaTrayService`、`LinuxSecretProtector`、`libsecret` | `PlatformServiceTests.cs`；GNOME 托盘可能需要 AppIndicator 扩展 |
 | Android 钱包类型的桌面等价实现 | 已验证 | `ExtendedWalletItemData.cs`、钱包编辑器和详情投影 | `WalletParityTests.cs`、`WalletWorkflowUiTests.cs` |
 | Windows 原生 passkey 状态 | 平台受限 | `NativePasskeyService.cs` 仅探测 WebAuthn client API | `PlatformServiceTests.cs`、`native-passkey-boundary.md`；Monica 不是系统 Credential Provider |
-| 截图保护 | 已验证 | Windows capture-affinity adapter 与设置开关 | `AppSettingsTests.WindowCapture.cs`；能力由用户选择，不强制启用 |
+| 截图保护 | 已验证 | Windows capture-affinity adapter 与设置开关 | `AppSettingsTests.WindowCapture.cs`；Linux 按 `window-security` capability 禁用开关 |
 
 ## 数据与安全边界
 
@@ -58,6 +59,7 @@
 | --- | --- | --- |
 | 统一商业质量门 | 已验证 | `eng/ci/verify-commercial-release.ps1` 执行卫生、文件体积、格式、漏洞、零警告构建、核心和 Headless UI 测试 |
 | JIT 桌面包 | 已验证（默认） | Build/Release 工作流覆盖 Windows、Linux、macOS；Release 默认 `jit` |
+| Linux `.deb` / AppImage / Flatpak | 已验证（工作流） | `package-linux-deb.sh`、`package-linux-appimage.sh`、`package-linux-flatpak.sh`；Release Linux job 上传三类产物 |
 | NativeAOT 包 | 实验性 | CI 保留 AOT 构建信号，但 Release 输入明确标为 experimental，且不再默认选择 |
 | Action 供应链固定 | 已验证 | 所有第三方 Action 固定完整 commit SHA，checkout 不保留凭据 |
 | 依赖更新 | 已验证（配置） | `.github/dependabot.yml` 每周检查 GitHub Actions 与 NuGet |
@@ -65,7 +67,7 @@
 | Release 可见性 | 已验证（限制） | 工作流移除非草稿输入并硬编码 `draft: true` |
 | Windows 代码签名 | 外部待完成 | 当前无受信任 Authenticode 证书和签名验证证据 |
 | macOS 签名与公证 | 外部待完成 | 当前无 Developer ID、notarization 和 Gatekeeper 验证证据 |
-| Linux 仓库签名 | 外部待完成 | 当前生成 `.deb`，没有发行仓库元数据和仓库签名 |
+| Linux 仓库签名 | 外部待完成 | 当前生成 `.deb` / AppImage / Flatpak，没有发行仓库元数据和仓库签名 |
 | 多平台人工验收 | 外部待完成 | 安装、升级、卸载、窗口管理、辅助技术和真实硬件性能需在目标系统执行 |
 
 ## 远端 GitHub 安全设置
